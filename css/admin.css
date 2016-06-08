@@ -1,0 +1,276 @@
+/* CSS Document */
+
+/* Generic Layout Editor CSS
+---------------------------------------------------------------------------- */
+.action-remove-item {
+	background-image: url(../images/close-icon.png);
+	background-repeat: no-repeat;
+}
+
+.action-edit-item {
+	background-image: url(../images/settings-icon.png);
+	background-repeat: no-repeat;
+}
+
+input.lb-child-items {
+	position: relative;
+	display: none;
+}
+
+#layout-builder a {
+	text-decoration: none;
+}
+
+/* Layout Editor CSS
+---------------------------------------------------------------------------- */
+#lb-layout-editor .row {
+	background-color: #32373C;
+	border-top: 1px solid #434a50;
+	border-bottom: 1px solid #212528;
+	padding-bottom: 8px;
+}
+
+#lb-layout-editor .row > header {
+	height: 30px;
+	position: relative;
+}
+
+#lb-layout-editor .row > header > a {
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	vertical-align: top;
+}
+
+#lb-layout-editor .row > header > .row-title {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: top;
+}
+
+#lb-layout-editor .row > header > a.action-edit-item {
+	background-position: center center;
+	background-size: 18px auto;
+	font-size: 0px;
+}
+
+#lb-layout-editor .row > header > a.action-remove-item {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-position: center center;
+	background-size: 18px auto;
+	font-size: 0px;
+}
+
+#lb-layout-editor .row > header > .item-title {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: top;
+}
+
+#lb-layout-editor .row > .child-items {
+	margin: 0 0.4%;
+	box-sizing: border-box;
+}
+
+/* Column --------------*/
+
+#lb-layout-editor .column {
+	position: relative;
+	vertical-align: top;
+	display: inline-block;
+}
+
+#lb-layout-editor .column:before {
+	content: '';
+	display: block;
+	top: 0;
+	left: 4px;
+	right: 4px;
+	bottom: 0;
+	background-color: #dddddd;
+	position: absolute;
+	border-radius: 6px;
+}
+
+#lb-layout-editor .column > .child-items {
+	/*margin: 0 4px;*/
+	padding: 1rem;
+	position: relative;
+	box-sizing: border-box;
+	min-height: 100px;
+	/*background-color: #dddddd;
+	border-radius: 6px;*/
+}
+
+#lb-layout-editor .row.single .column { width: 100%; }
+
+#lb-layout-editor .row.sidebar-right .column { width: 33.33%; }
+#lb-layout-editor .row.sidebar-right .column:first-child { width: 66.66%; }
+
+#lb-layout-editor .row.half .column { width: 50%; }
+
+
+/* Content Item -------------*/
+
+#lb-layout-editor .content-item {
+	background-color: #fff;
+	border-radius: 4px;
+	padding: 0 0.75rem 0.75rem;
+	box-sizing: border-box;
+	margin-bottom: 1rem;
+}
+
+#lb-layout-editor .content-item > header {
+	position: relative;
+	border-bottom: 1px solid #ddd;
+	color: #aaa;
+	font-weight: bold;
+}
+
+#lb-layout-editor .content-item > header > .item-title {
+	height: 24px;
+	line-height: 24px;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+#lb-layout-editor .content-item > header > a.action-remove-item {
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	top: 0;
+	right: 0;
+	background-position: center center;
+	background-size: 14px auto;
+	font-size: 0px;
+}
+
+#lb-layout-editor .content-item > .item-content {
+	padding-top: 0.25rem;
+	position: relative;
+}
+
+#lb-layout-editor .content-item > .item-content .content-iframe {
+	width: 100%;
+	display: block;
+}
+
+#lb-layout-editor .content-item > .item-content .content-textarea {
+	display: none;
+}
+
+#lb-layout-editor .content-item > .item-content a.action-edit-item {
+	background-image: none;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+
+/* Modal -------------*/
+
+#lb-modal-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba( 0,0,0,0.7 );
+	z-index: 1999;
+	display: none;
+}
+
+.layout-builder-modal-wrap {
+	position: absolute;
+	top: -9999px;
+	left: 0;
+	width: 100%;
+}
+
+.layout-builder-modal-wrap.active {
+	position: absolute;
+	top: 0;
+}
+
+.layout-builder-modal {
+	z-index: 2000;
+	position: relative;
+	background-color: #eee;
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.layout-builder-modal > header {
+	position: relative;
+	background-color: #fcfcfc;
+}
+
+.layout-builder-modal > header  .form-title {
+	padding: 0 16px;
+    font-size: 22px;
+    line-height: 50px;
+    margin: 0;
+}
+
+.layout-builder-modal > header .action-close-modal {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 0;
+	text-align: center;
+}
+
+.layout-builder-modal > header .action-close-modal:before {
+	content: "\f158";
+    font: 400 20px/1 dashicons;
+    speak: none;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #666;
+	line-height: 50px;
+}
+
+.layout-builder-modal .layout-builder-modal-content {
+}
+
+.layout-builder-modal .layout-builder-modal-content > nav {
+	background-color: #fcfcfc;
+	border-bottom: 1px solid #ccc;
+}
+
+.layout-builder-modal .layout-builder-modal-content > nav a {
+	display: inline-block;
+	padding: 0.5rem 1.5rem;
+	margin-left: 0.5rem;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	position: relative;
+	top: 1px;
+}
+
+.layout-builder-modal .layout-builder-modal-content > nav a.active {
+	border-bottom: none;
+}
+
+
+.layout-builder-modal .layout-builder-modal-content > div.layout-builder-form {
+	padding: 1rem 0.5rem;
+	box-sizing: border-box;
+}
+
+
+
+.layout-builder-modal .wp-switch-editor {
+	    background: #fff;
+}
+
