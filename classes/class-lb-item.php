@@ -1,6 +1,8 @@
 <?php
 
-abstract class LB_Item {
+require_once dirname(__FILE__). '/class-lb-form.php';
+
+abstract class LB_Item extends LB_Form {
 	
 	protected $slug;
 	
@@ -150,33 +152,19 @@ abstract class LB_Item {
 	
 	public function get_item_form_html(){
 		
-		$form = '';
+		$html = '';
 		
-		$nav = '';
-		
-		$sections = '';
-		
-		if ( method_exists( $this , 'get_form_html' ) ){
+		if ( method_exists( $this , 'get_form' ) ){
 			
-			$form = $this->get_form_html( $this->get_settings() , $this->get_content() );
+			$form = $this->get_form( $this->get_settings() , $this->get_content() );
 			
-			if ( ! is_array( $form ) ) $form = array( 'Basic' => $form );
-			
-			$active = ' active';
-			
-			foreach( $form as $label => $form_content ){
+			if ( ! is_array( $form ) ) {
 				
-				$nav .= '<a href="#" class="' . $active . '">' . $label . '</a>';
+				$form = array( 'Basic' => $form );
 				
-				$sections .= '<div class="lb-form-section' . $active . '">' . $form_content . '</div>';
-				
-				$active = '';
-				
-			} // end foreach
+			} // end if
 			
-			$html .= '<nav class="lb-form-nav">' . $nav . '</nav>';
-			
-			$html .= '<div id="form-' . $this->get_id() . '" class="layout-builder-form">' . $sections . '</div>';
+			$html .= $this->get_form_html( $this->get_id() , $form , 'Edit Item' , 'do-edit-item-action' , 'Done' );
 			
 			
 		} // end if

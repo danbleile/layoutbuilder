@@ -37,13 +37,12 @@ class TK_Layout_Builder {
 		require_once 'classes/class-lb-item.php';
 		
 		require_once 'classes/class-lb-items-factory.php';
-		
-		require_once 'classes/class-lb-shortcode-factory.php';
-		
 		$items_factory = new LB_Items_Factory();
 		
+		require_once 'classes/class-lb-shortcode-factory.php';
 		$shortcode_factory = new LB_Shortcode_Factory( $items_factory );
 		
+
 		add_action( 'init' , array( $shortcode_factory , 'register_item_shortcodes' ) );
 		
 		if ( is_admin() ){
@@ -61,6 +60,9 @@ class TK_Layout_Builder {
 	
 	protected function init_admin( $items_factory , $shortcode_factory  ){
 		
+		require_once 'classes/class-lb-form.php';
+		$form = new LB_Form();
+		
 		require_once 'classes/class-lb-options.php';
 		
 		require_once 'classes/class-lb-editor.php';
@@ -71,7 +73,7 @@ class TK_Layout_Builder {
 		
 		//$options->set_options();
 		
-		$editor = new LB_Editor( $options , $items_factory , $shortcode_factory );
+		$editor = new LB_Editor( $options , $items_factory , $form );
 		
 		$save = new LB_Save( $items_factory , $shortcode_factory );
 		

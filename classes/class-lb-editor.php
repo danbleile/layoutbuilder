@@ -6,15 +6,15 @@ class LB_Editor {
 	
 	protected $items_factory;
 	
-	protected $shortcode_factory;
+	protected $form;
 	
-	public function __construct( $options , $items_factory , $shortcode_factory ){
+	public function __construct( $options , $items_factory , $form ){
 		
 		$this->options = $options;
 		
 		$this->items_factory = $items_factory;
 		
-		$this->shortcode_factory = $shortcode_factory;
+		$this->form = $form;
 		
 	} // end __construct
 	
@@ -75,7 +75,7 @@ class LB_Editor {
 		
 		foreach( $forms as $form_id => $form_html ){
 			
-			$html .= $this->get_wrap_modal_html( $form_html , 'Edit Item' , 'action-item-edited');
+			$html .= $this->form->get_form_modal( $form_html );
 			
 		} // end foreach
 		

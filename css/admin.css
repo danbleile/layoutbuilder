@@ -21,6 +21,26 @@ input.lb-child-items {
 	text-decoration: none;
 }
 
+/* Buttons
+---------------------------------------------------------------------------- */
+.tk-builder-form-button {
+	background: #0085ba;
+    border-color: #0073aa #006799 #006799;
+    -webkit-box-shadow: 0 1px 0 #006799;
+    box-shadow: 0 1px 0 #006799;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799;
+	display: inline-block;
+	border-radius: 3px;
+}
+
+.tk-builder-form-button.large {
+    height: 35px;
+    line-height: 33px;
+    padding: 0 2rem;
+}
+
 /* Layout Editor CSS
 ---------------------------------------------------------------------------- */
 #lb-layout-editor .row {
@@ -187,7 +207,88 @@ input.lb-child-items {
 	display: none;
 }
 
-.layout-builder-modal-wrap {
+.tk-builder-modal-wrap {
+	position: absolute;
+	top: -9999px;
+	left: 0;
+	width: 100%;
+}
+
+.tk-builder-modal-wrap.active {
+	position: absolute;
+	top: 0;
+}
+
+.tk-builder-modal {
+	position: relative;
+	background-color: #eee;
+	max-width: 800px;
+	margin: 0 auto;
+	z-index: 2000;
+}
+
+.tk-builder-modal > .close-modal-action {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 0;
+	text-align: center;
+	cursor: pointer;
+}
+
+.tk-builder-modal > .close-modal-action:before {
+	content: "\f158";
+    font: 400 20px/1 dashicons;
+    speak: none;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #666;
+	line-height: 50px;
+}
+
+.tk-builder-form > header {
+	background-color: #fcfcfc;
+	padding: 0 16px;
+    font-size: 22px;
+    line-height: 50px;
+    margin: 0;
+}
+
+.tk-builder-form > nav {
+	background-color: #fcfcfc;
+	border-bottom: 1px solid #ccc;
+}
+
+.tk-builder-form > nav a {
+	display: inline-block;
+	padding: 0.5rem 1.5rem;
+	margin-left: 0.5rem;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	position: relative;
+	top: 1px;
+}
+
+.tk-builder-form > nav a:first-child {
+	border-bottom: none;
+}
+.tk-builder-form .tk-builder-form-sections > fieldset {
+	margin: 1rem 0.5rem;
+	box-sizing: border-box;
+}
+
+.tk-builder-form > footer {
+	background-color: #fcfcfc;
+	border-top: 1px solid #ccc;
+	padding: 1rem 0;
+	text-align: center;
+}
+
+
+/*.layout-builder-modal-wrap {
 	position: absolute;
 	top: -9999px;
 	left: 0;
@@ -272,5 +373,5 @@ input.lb-child-items {
 
 .layout-builder-modal .wp-switch-editor {
 	    background: #fff;
-}
+} */
 

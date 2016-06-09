@@ -7,7 +7,7 @@ class LB_Item_Text extends LB_Item {
 	protected $name = 'Text/HTML';
 	
 	
-	public function get_form_html( $settings , $content ){
+	public function get_form( $settings , $content ){
 		
 		ob_start();
 		

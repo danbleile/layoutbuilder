@@ -224,13 +224,13 @@ var LayoutBuilder = {
 			
 			LayoutBuilder.modal.set_modal_bg();
 			
-			jQuery('body').on( 'click' , '.action-close-modal' , function( event ){ event.preventDefault(); LayoutBuilder.modal.close_modal(); });
+			jQuery('body').on( 'click' , '.close-modal-action' , function( event ){ event.preventDefault(); LayoutBuilder.modal.close_modal(); });
 			
 		}, // end init
 		
 		set_modal_bg : function(){
 			
-			jQuery('body').append('<div id="lb-modal-bg" class="action-close-modal"></div>');
+			jQuery('body').append('<div id="lb-modal-bg" class="close-modal-action"></div>');
 			
 			LayoutBuilder.modal.modal_bg = jQuery('#lb-modal-bg');
 			
@@ -238,7 +238,7 @@ var LayoutBuilder = {
 		
 		close_modal : function(){
 			
-			var m = LayoutBuilder.lb.find('.layout-builder-modal-wrap.active');
+			var m = LayoutBuilder.lb.find('.tk-builder-modal-wrap.active');
 			
 			m.removeClass('active');
 			
@@ -250,7 +250,7 @@ var LayoutBuilder = {
 			
 			LayoutBuilder.modal.modal_bg.fadeIn('fast');
 			
-			LayoutBuilder.lb.find('#form-' + form_id ).closest('.layout-builder-modal-wrap').addClass('active');
+			LayoutBuilder.lb.find('#form-' + form_id ).closest('.tk-builder-modal-wrap').addClass('active');
 			
 		}
 		
