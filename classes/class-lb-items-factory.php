@@ -6,6 +6,16 @@ class LB_Items_Factory {
 	
 	protected $content_prefix = '_content_';
 	
+	//@var array Defined layouts
+	protected $layouts = array(
+		'single'     => array( 1, 'Single' ),
+		'side-right' => array( 2, 'Sidebar Right' ),
+		'side-left'  => array( 2, 'Sidebar Left' ),
+		'half'       => array( 2, 'Halves' ),
+		'third'      => array( 3, 'Thirds' ),
+		'quarter'    => array( 4, 'Quarters' ),
+	);
+	
 	
 	public function get_prefix(){
 		
@@ -19,8 +29,19 @@ class LB_Items_Factory {
 		
 	}
 	
+	/**
+	 * Get the defined layouts
+	 *
+	 * @return array Defined layouts
+	 */
+	public function get_layouts(){
+		
+		return $this->layouts;
+		
+	} // end get_layouts
 	
-	public function get_item( $slug ){
+	
+	public function get_item( $slug , $settings = array() , $content = '' , $id = false , $get_children = false , $clean = false ){
 		
 		$item = false;
 		
@@ -28,11 +49,21 @@ class LB_Items_Factory {
 		
 		if ( array_key_exists( $slug , $items_array ) ){
 			
-			$item_obj = $this->get_item_object( $items_array[ $slug ]['file_path'] , $items_array[ $slug ]['class_name'] );
-			
-			if ( $item_obj ){
+			if ( $item_obj = $this->get_item_object( $items_array[ $slug ]['file_path'] , $items_array[ $slug ]['class_name'] )  ){
 				
 				$item = $item_obj;
+				
+				$item->set_item( $settings , $content , $id  );
+				
+				if ( $get_children && $item->get_allow_children() ){
+					
+					$children = $this->get_children_recursive( $item->get_content() , $item->get_allow_children() , $item->get_default_child() );
+					
+					$children = $item->check_children( $children , $this );
+					
+					$item->set_children( $children );
+					
+				} // end if
 				
 			} // end if
 			
@@ -41,6 +72,36 @@ class LB_Items_Factory {
 		return $item;
 		
 	} // end if
+	
+	
+	public function get_children_recursive( $content , $allowed , $default , $clean = false ){
+		
+		$children = array();
+		
+		if ( in_array( 'content-items' , $allowed ) ){
+			
+			$allowed = $this->get_column_items_array();
+			
+		} // end if
+		
+		$cia = $this->get_content_items_array( $content , $allowed , $default );
+		
+		foreach( $cia as $item_array ){
+			
+			$child = $this->get_item( $item_array['slug'] , $item_array['settings'] , $item_array['content'] , false , true , $clean );
+			
+			if ( $child  ){
+				
+				$children[] = $child ;
+				
+			} // end if
+			
+		} // end foreach
+		
+		return $children;
+		
+	}
+	
 		
 	
 	public function get_items(){
@@ -126,7 +187,7 @@ class LB_Items_Factory {
 	} // end get_items_array
 	
 	
-	public function get_content_items_recursive( $content , $allowed , $default ){
+	/*public function get_content_items_recursive( $content , $allowed , $default ){
 		
 		$items = array();
 		
@@ -148,8 +209,11 @@ class LB_Items_Factory {
 				
 				if ( $item->get_allow_children() ){
 					
+					$children = $this->get_content_items_recursive( $item_array['content'] , $item->get_allow_children() , $item->get_default_child() );
 					
-					$item->set_children( $this->get_content_items_recursive( $item_array['content'] , $item->get_allow_children() , $item->get_default_child() ) );
+					$item->check_children( $children , $this );
+					
+					$item->set_children( $children );
 					
 				} // end if
 				
@@ -161,7 +225,7 @@ class LB_Items_Factory {
 		
 		return $items;
 		
-	} // end get_content_items_recursive
+	} // end get_content_items_recursive*/
 	
 	
 	public function get_content_items_array( $content , $allowed , $default = false ){

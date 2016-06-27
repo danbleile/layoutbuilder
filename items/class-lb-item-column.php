@@ -10,13 +10,20 @@ class LB_Item_Column extends LB_Item {
 	
 	protected $default_child = 'text';
 	
+	protected $fields = array(
+		'index' => '1',
+	);
+	
 	
 	public function get_editor_html( $editor_content ){
+		
+		$col = array('zero','one','two','three','four','five','six','seven','eight','nine','ten');
 		
 		$class = array(
 			'column',
 			'layout-item',
 			'structure-item',
+			$col[ $this->get_settings( 'index' ) ]
 		);
 		
 		$html = '<div id="' . $this->get_id() . '" class="' . implode( ' ' , $class ) . '">';
@@ -34,5 +41,8 @@ class LB_Item_Column extends LB_Item {
 		return $html;
 		
 	} // end get_editor_html
+	
+	
+	
 	
 }

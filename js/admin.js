@@ -1,4 +1,4 @@
-var LayoutBuilder = {
+var tk_builder = {
 	
 	lb : jQuery('#layout-builder'),
 	
@@ -8,13 +8,11 @@ var LayoutBuilder = {
 	
 	init : function(){
 		
-		LayoutBuilder.layout.apply_sort( false );
+		tk_builder.events.bind();
 		
-		LayoutBuilder.events.bind();
+		tk_builder.layout.init();
 		
-		LayoutBuilder.layout.update_layout();
-		
-		LayoutBuilder.modal.init();
+		tk_builder.modal.init();
 		
 	}, // init
 	
@@ -23,11 +21,13 @@ var LayoutBuilder = {
 		
 		bind : function(){
 			
-			jQuery( window ).on( 'resize' , function(){ LayoutBuilder.layout.resize_layout()  } );
+			jQuery( window ).on( 'resize' , function(){ tk_builder.layout.resize_layout()  } );
 			
-			LayoutBuilder.layout.wrap.on( 'click' , '.action-remove-item' , function( event ){ event.preventDefault(); LayoutBuilder.layout.remove_item( jQuery( this ) )});
+			tk_builder.layout.wrap.on( 'click' , '.action-remove-item' , function( event ){ event.preventDefault(); tk_builder.layout.remove_item( jQuery( this ) )});
 			
-			LayoutBuilder.lb.on( 'click' , '.action-edit-item' , function( event ){ event.preventDefault(); LayoutBuilder.layout.edit_item( jQuery( this ) ); });
+			tk_builder.lb.on( 'click' , '.action-edit-item' , function( event ){ event.preventDefault(); tk_builder.layout.edit_item( jQuery( this ) ); });
+			
+			tk_builder.lb.on('click' , '.do-edit-item-action', function( event ){ event.preventDefault(); tk_builder.forms.close_edit( jQuery( this ) ); });
 			
 		}
 		
@@ -36,21 +36,43 @@ var LayoutBuilder = {
 	
 	layout : {
 		
-		
 		wrap : jQuery('#lb-layout-editor'),
 		
 		resize_layout : function(){
 			
-			LayoutBuilder.layout.equalize_columns();
+			tk_builder.layout.equalize_columns();
 			
 		}, // end resize_layout
+		
+		init: function(){
+			
+			tk_builder.layout.apply_sort( false );
+			
+			tk_builder.layout.update_layout();
+			
+			tk_builder.layout.events.bind();
+			
+			//Testing
+			//tk_builder.layout.enable_drop();
+			
+		},
+		
+		events: {
+			
+			bind:function(){
+				
+				tk_builder.layout.wrap.on('click' , '.tk-builder-row-options fieldset' , function(){ tk_builder.layout.add_row( jQuery( this ) , false ) });
+				
+			}, // end bind 
+			
+		},
 		
 		
 		edit_item : function( ic ) {
 			
 			var id = ic.closest('.layout-item').attr('id');
 			
-			LayoutBuilder.modal.open_modal( id );
+			tk_builder.modal.open_modal( 'form-' + id );
 			
 		}, // end edit item
 		
@@ -59,26 +81,36 @@ var LayoutBuilder = {
 			
 			if ( ! wrapper ) {
 				
-				wrapper = LayoutBuilder.layout.wrap;
+				wrapper = tk_builder.layout.wrap;
 				
 				wrapper.children('.child-items').sortable({
 				stop: function( event , ui ){ 
-					LayoutBuilder.layout.update_layout(); 
+					tk_builder.layout.update_layout(); 
 					}, 
 				});
 				
 			} // end if
 			
-			wrapper.find( '.row > .child-items' ).sortable({
+			if ( wrapper.hasClass('row') ){
+				
+				row = wrapper;
+				
+			} else {
+				
+				row = wrapper.find('.row');
+				
+			} // end if
+			
+			row.children( '.child-items' ).sortable({
 				stop: function( event , ui ){ 
-					LayoutBuilder.layout.update_layout();
+					tk_builder.layout.update_layout();
 				 }, 
 			});
 			
 			wrapper.find( '.column > .child-items' ).sortable( {
 				connectWith: '.column > .child-items',
 				stop: function( event , ui ){ 
-					LayoutBuilder.layout.update_layout();
+					tk_builder.layout.update_layout();
 					}, 
 			});
 			
@@ -87,7 +119,7 @@ var LayoutBuilder = {
 		
 		equalize_columns : function(){
 			
-			LayoutBuilder.layout.wrap.find('.row').each( function(){
+			tk_builder.layout.wrap.find('.row').each( function(){
 			
 				var r = jQuery( this );
 				
@@ -142,7 +174,7 @@ var LayoutBuilder = {
 			  
 			  	jQuery( window ).trigger('resize');
 			  
-			 	 LayoutBuilder.layout.update_chidren();
+			 	 tk_builder.layout.update_chidren();
 			  
 		  	});
 		  
@@ -170,9 +202,15 @@ var LayoutBuilder = {
 		}, // end update_chidren
 		
 		
-		update_content : function(){
+		update_content : function( container ){
+			
+			if ( ! container ){
+				
+				container = tk_builder.layout.wrap;
+				
+			} // end if
 		
-			LayoutBuilder.layout.wrap.find('textarea.content-textarea').each( function(){
+			container.find('textarea.content-textarea').each( function(){
 				
 				var t = jQuery( this );
 				
@@ -187,20 +225,34 @@ var LayoutBuilder = {
 		
 		update_layout : function(){
 		
-			LayoutBuilder.layout.update_content();
+			tk_builder.layout.update_content( false );
 			
-			LayoutBuilder.layout.update_chidren();
+			tk_builder.layout.update_chidren();
 			
-			LayoutBuilder.layout.resize_layout();
+			tk_builder.layout.resize_layout();
 			
-			LayoutBuilder.layout.set_frame_height();
+			tk_builder.layout.set_frame_height(false);
 			
 		}, // end update_layout
 		
-		
-		set_frame_height : function(){
+		apply_events : function( container ){
 			
-			LayoutBuilder.layout.wrap.find( 'iframe.content-iframe' ).each( function(){
+			tk_builder.layout.apply_sort( container );
+			
+			tk_builder.layout.update_content( container );
+			
+		}, // end apply events
+		
+		
+		set_frame_height : function( container ){
+			
+			if ( ! container ){
+				
+				container = tk_builder.layout.wrap;
+				
+			} // end if
+			
+			container.find( 'iframe.content-iframe' ).each( function(){
 				
 				var ifrm = jQuery( this );
 				
@@ -211,10 +263,142 @@ var LayoutBuilder = {
 			}); // end each
 			
 		}, // end 
+		
+		
+		add_row: function( ic , show_form ){
+			
+			container = tk_builder.layout.wrap.children('.child-items');
+			
+			data = ic.serialize();
+			
+			tk_builder.layout.get_part( data , container, show_form );
+			
+		},
+		
+		get_part:function( data , container , show_form ){
+			
+			data = data + '&action=tk_editor_get_part';
+			
+			//data = { action : 'tk_editor_get_part' };
+			
+			jQuery.post(
+				ajaxurl,
+				data,
+				function( response ){
+					
+					console.log( response );
+					
+					tk_builder.layout.insert_part( response , container );
+					
+					tk_builder.forms.insert( response.forms );
+					
+					tk_builder.layout.apply_events( jQuery('#' + response.id ) );
+					
+				},
+				'json'
+			);
+			
+			
+		}, // end get_part
+		
+		
+		insert_part: function( json , container ){
+			
+			container.append( json.editor );
+			
+			tk_builder.layout.update_layout();
+			
+		}, // end insert_part 
+		
+		/***************************************
+		Testing
+		***************************************/
+		/*enable_drop: function(){
+			
+			jQuery('#tk-builder-add-row fieldset').draggable({
+      			connectToSortable: "#lb-layout-editor .child-items",
+      			helper: "clone",
+      			revert: "invalid"
+    			});
+			
+		},*/
+		
+		/* End Testing */
 		  
 		
 	}, // end layout
 	
+	forms : {
+		
+		form_wrap : jQuery('#lb-form-editor'),
+		
+		insert : function( forms ){
+			
+			if ( forms ){
+				
+				for ( var key in forms ) {
+					
+					if ( ! forms.hasOwnProperty( key ) ) continue;
+					
+					if ( forms[key].type == 'text' ) {
+					
+						tk_builder.forms.editor_form( forms[key].id , forms[key].item_id );
+					
+					} else {
+						
+						tk_builder.forms.form_wrap.prepend( forms[key].form );  
+						
+					} // end if
+					
+				} // end for
+				
+			} // end if
+			
+		}, // end insert
+		
+		close_edit : function( btn ){
+			
+			var form = btn.closest( '.tk-builder-form' );
+			
+			if ( form.hasClass( 'tk-form-type-text' ) ){
+				
+				var content = tk_builder.forms.get_text_content( form );
+				
+			} else {
+			} // end if
+			
+		}, // end close_edit
+		
+		
+		get_text_content: function( form ){
+			
+			alert(form.find( 'iframe').attr('id') );
+			
+			var content = tinyMCE.get( form.find( 'textarea').attr('id') ).getContent();
+			
+			return content;
+			
+		}, // end get text content
+		
+		editor_form : function( form_id , item_id ){
+			
+			alert( form_id , item_id );
+		
+			var editor = jQuery('.inactive-editor').first();
+			
+			editor.find('textarea').attr('name' , '_content_' + item_id );
+			
+			editor.attr( 'id' , form_id ).removeClass( 'inactive-editor');
+			
+		}, // end editor_form
+		
+		get_content : function(){
+		}, // end get content
+		
+		
+		
+	}, // end forms
+
 	
 	modal : {
 		
@@ -222,9 +406,9 @@ var LayoutBuilder = {
 		
 		init: function(){
 			
-			LayoutBuilder.modal.set_modal_bg();
+			tk_builder.modal.set_modal_bg();
 			
-			jQuery('body').on( 'click' , '.close-modal-action' , function( event ){ event.preventDefault(); LayoutBuilder.modal.close_modal(); });
+			jQuery('body').on( 'click' , '.close-modal-action' , function( event ){ event.preventDefault(); tk_builder.modal.close_modal(); });
 			
 		}, // end init
 		
@@ -232,25 +416,25 @@ var LayoutBuilder = {
 			
 			jQuery('body').append('<div id="lb-modal-bg" class="close-modal-action"></div>');
 			
-			LayoutBuilder.modal.modal_bg = jQuery('#lb-modal-bg');
+			tk_builder.modal.modal_bg = jQuery('#lb-modal-bg');
 			
 		}, // end set_modal_bg
 		
 		close_modal : function(){
 			
-			var m = LayoutBuilder.lb.find('.tk-builder-modal-wrap.active');
+			var m = tk_builder.lb.find('.tk-builder-modal-wrap.active');
 			
 			m.removeClass('active');
 			
-			LayoutBuilder.modal.modal_bg.fadeOut('fast');
+			tk_builder.modal.modal_bg.fadeOut('fast');
 			
 		}, // end close_modal
 		
 		open_modal : function( form_id ){
 			
-			LayoutBuilder.modal.modal_bg.fadeIn('fast');
+			tk_builder.modal.modal_bg.fadeIn('fast');
 			
-			LayoutBuilder.lb.find('#form-' + form_id ).closest('.tk-builder-modal-wrap').addClass('active');
+			tk_builder.lb.find('#' + form_id ).closest('.tk-builder-modal-wrap').addClass('active');
 			
 		}
 		
@@ -258,5 +442,5 @@ var LayoutBuilder = {
 	
 }
 
-LayoutBuilder.init();
+tk_builder.init();
 

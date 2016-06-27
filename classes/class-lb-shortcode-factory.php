@@ -42,7 +42,7 @@ class LB_Shortcode_Factory {
 			
 			foreach( $items as $item ){
 				
-				$sh = '[' . $item->get_slug() . ' ' . $this->get_shortcode_settings( $item ) . ' ]';
+				$sh = '[' . $item->get_slug() . $this->get_shortcode_settings( $item ) . ']';
 				
 				$content = $item->get_content();
 				
@@ -75,7 +75,29 @@ class LB_Shortcode_Factory {
 	
 	protected function get_shortcode_settings( $item ){
 		
-		return '';
+		$shortcode_set = '';
+		
+		$set_str = array();
+		
+		$settings = $item->get_settings();
+		
+		foreach( $settings as $key => $value ){
+			
+			if ( $value ){
+				
+				$set_str[] = $key . '="' . $value . '"';
+				
+			} // end if
+			
+		} // end foreach
+		
+		if ( $set_str ){
+			
+			$shortcode_set = ' ' . implode( ' ' , $set_str );
+			
+		} // end if
+		
+		return $shortcode_set;
 		
 	}
 	

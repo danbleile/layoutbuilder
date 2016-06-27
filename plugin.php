@@ -45,6 +45,8 @@ class TK_Layout_Builder {
 
 		add_action( 'init' , array( $shortcode_factory , 'register_item_shortcodes' ) );
 		
+		add_action( 'init' , array( $this , 'add_tk_the_content' ), 1 );
+		
 		if ( is_admin() ){
 			
 			$this->init_admin( $items_factory , $shortcode_factory );
@@ -61,7 +63,7 @@ class TK_Layout_Builder {
 	protected function init_admin( $items_factory , $shortcode_factory  ){
 		
 		require_once 'classes/class-lb-form.php';
-		$form = new LB_Form();
+		$forms = new LB_Form();
 		
 		require_once 'classes/class-lb-options.php';
 		
@@ -69,11 +71,15 @@ class TK_Layout_Builder {
 		
 		require_once 'classes/class-lb-save.php';
 		
+		require_once 'classes/class-tk-ajax.php';
+		
 		$options = new LB_Options();
 		
 		//$options->set_options();
 		
-		$editor = new LB_Editor( $options , $items_factory , $form );
+		$editor = new LB_Editor( $options , $items_factory , $forms );
+		
+		$ajax = new TK_AJAX( $items_factory , $editor );
 		
 		$save = new LB_Save( $items_factory , $shortcode_factory );
 		
@@ -83,11 +89,27 @@ class TK_Layout_Builder {
 		
 		add_filter( 'content_save_pre' , array( $save , 'save_content' ) , 99 );
 		
+		add_action( 'wp_ajax_tk_editor_get_part', array( $ajax , 'get_part_json' ) );
+		
 	} // end init_admin
 	
 	
 	protected function init_public( $items_factory , $shortcode_factory  ){
 	}
+	
+	/**
+	 * Create custom filter to mirror the_content
+	 */
+	public function add_tk_the_content(){
+		
+		add_filter( 'tk_the_content', 'wptexturize'        );
+		add_filter( 'tk_the_content', 'convert_smilies'    );
+		add_filter( 'tk_the_content', 'convert_chars'      );
+		add_filter( 'tk_the_content', 'wpautop'            );
+		add_filter( 'tk_the_content', 'shortcode_unautop'  );
+		add_filter( 'tk_the_content', 'prepend_attachment' );
+		
+	} // end add_tk_the_content
 	
 	
 }

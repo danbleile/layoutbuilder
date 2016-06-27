@@ -4,6 +4,10 @@ require_once dirname(__FILE__). '/class-lb-form.php';
 
 abstract class LB_Item extends LB_Form {
 	
+	protected $prefix = '_layout_builder';
+	
+	protected $content_prefix = '_content_';
+	
 	protected $slug;
 	
 	protected $id;
@@ -21,6 +25,18 @@ abstract class LB_Item extends LB_Form {
 	protected $default_child = false;
 	
 	protected $fields = array();
+	
+	public function get_prefix(){
+		
+		return $this->prefix;
+		
+	}
+	
+	public function get_content_prefix(){
+		
+		return $this->content_prefix;
+		
+	}
 	
 	public function get_slug(){
 		
@@ -129,7 +145,6 @@ abstract class LB_Item extends LB_Form {
 		
 	} // end set_item
 	
-	
 	public function get_editor_html_recursive(){
 		
 		$html = '';
@@ -150,13 +165,13 @@ abstract class LB_Item extends LB_Form {
 		
 	} // end get_editor_html
 	
-	public function get_item_form_html(){
+	/*public function get_item_form_html(){
 		
 		$html = '';
 		
-		if ( method_exists( $this , 'get_form' ) ){
+		if ( method_exists( $this , 'the_form' ) ){
 			
-			$form = $this->get_form( $this->get_settings() , $this->get_content() );
+			$form = $this->the_form( $this->get_settings() , $this->get_content() );
 			
 			if ( ! is_array( $form ) ) {
 				
@@ -171,7 +186,38 @@ abstract class LB_Item extends LB_Form {
 		
 		return $html;
 		
-	}
+	}*/
+	
+	public function get_item_form_array(){
+		
+		if ( method_exists( $this , 'the_form' ) ){
+			
+			$form = $this->the_form( $this->get_settings() , $this->get_content() );
+			
+			if ( ! is_array( $form ) ) {
+				
+				$form = array( 'Basic' => $form );
+				
+			} // end if
+			
+			$form_array = array(
+				'id'      => 'form-' . $this->get_id(),
+				'item_id' => $this->get_id(),
+				'size'    => 'full',
+				'form'    => $form,
+				'type'    => $this->get_slug(),
+			);
+			
+			return $form_array;
+			
+		} else {
+			
+			return array();
+			
+		} // end if
+		
+		
+	} // end get_item_form_array
 	
 	
 	public function get_editor_content(){
@@ -209,11 +255,11 @@ abstract class LB_Item extends LB_Form {
 			
 		} // end if
 		
-		foreach( $this->get_fields() as $key => $defaults ){
+		foreach( $this->get_fields() as $key => $default ){
 			
 			if ( ! array_key_exists( $key , $settings ) ){
 				
-				$settings[ $key ] = $defaults[0];
+				$settings[ $key ] = $default;
 				
 			} // end if
 			
@@ -255,7 +301,7 @@ abstract class LB_Item extends LB_Form {
 			
 				$html .= '<iframe class="content-iframe" src="about:blank" frameborder="0" scrolling="no"></iframe>';
 				
-				$html .= '<textarea class="content-textarea">' . $editor_content . '</textarea>';
+				$html .= '<textarea class="content-textarea">' . apply_filters( 'tk_the_content' , $editor_content ) . '</textarea>';
 				
 				$html .= '<input type="hidden" name="_content_' . $this->get_id() . '" value="' . $editor_content . '" />';
 				
@@ -270,7 +316,7 @@ abstract class LB_Item extends LB_Form {
 	}
 	
 	
-	public function get_forms_array_recursive(){
+	/*public function get_forms_array_recursive(){
 		
 		$forms = array();
 		
@@ -294,6 +340,55 @@ abstract class LB_Item extends LB_Form {
 		
 		return $forms;
 		
-	} // end get_forms_array_recursive
+	} // end get_forms_array_recursive*/
+	
+	
+	/**
+	 * Check children before adding to item 
+	 *
+	 * @param array $children Current Children
+	 * @param LB_Items_Factory $item_factory Instance of LB_Items_Factory
+	 * @return array Children of item
+	 */
+	public function check_children( $children , $item_factory ){
+		
+		return $children;
+		
+	} // end check_children
+	
+	/**
+	 * Set settings value
+	 *
+	 * @param string $key Settings key
+	 * @param mixed $value $settings value
+	 */
+	 public function set_setting( $key , $value ){
+		 
+		 $this->settings[ $key ] = $value;
+		 
+	 } // end set_setting
+	 
+	 /***
+	  * Get input name for use in the form
+	  *
+	  * @param string $key Name key to use
+	  * @param bool $is_setting If is a settings field
+	  */
+	 public function get_input_name( $key , $is_setting = true ){
+		 
+		 $input = $this->get_prefix() . '[' . $this->get_id() . ']';
+		 
+		 if ( $is_setting ){
+			 
+			 $input .= '[settings]';
+			 
+		 } // end if
+		 
+		 $input .= '[' . $key . ']';
+		 
+		 return $input;
+		 
+	 } // end get_input_name
+	 
 	
 }

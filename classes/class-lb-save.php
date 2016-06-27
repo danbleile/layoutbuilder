@@ -58,8 +58,6 @@ class LB_Save {
 			
 			$item = $this->items_factory->get_post_item_recursive( $item_id );
 			
-			//var_dump( $item );
-			
 			if ( $item ){
 				
 				$items[] = $item;

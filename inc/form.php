@@ -1,4 +1,4 @@
-<fieldset id="form-<?php echo $form_id;?>" class="tk-builder-form">
+<fieldset id="<?php echo $form_id;?>" class="tk-builder-form <?php echo $class;?>">
 	<header>
     	<?php echo $title;?>
     </header>

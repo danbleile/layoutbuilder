@@ -22,7 +22,7 @@ class LB_Form {
 	 * @param $form_array
 	 * @return string HTML for the form
 	 */
-	public function get_form_html( $form_id , $form_array , $title = '', $action = false , $btn_label = 'Done' ){
+	public function get_form_html( $form_id , $form_array , $title = '', $action = false , $btn_label = 'Done' , $class = '' ){
 		
 		ob_start();
 		
@@ -33,6 +33,19 @@ class LB_Form {
 		return $html;
 		
 	} // end get_form_html
+	
+	/**
+	 * Get hidden field html
+	 *
+	 * @param string $name Name of the field
+	 * @param string $value Value of the field
+	 * @return string HTML for the field
+	 */
+	public function get_field_hidden( $name , $value ){
+		
+		return '<input type="hidden" value="' . $value . '" name="' .  $name . '" />';
+		
+	} // end get_input_hidden
 	
 	
 	/**

@@ -128,10 +128,17 @@ input.lb-child-items {
 
 #lb-layout-editor .row.single .column { width: 100%; }
 
-#lb-layout-editor .row.sidebar-right .column { width: 33.33%; }
-#lb-layout-editor .row.sidebar-right .column:first-child { width: 66.66%; }
+#lb-layout-editor .row.side-right .column.two { width: 33.33%; }
+#lb-layout-editor .row.side-right .column.one { width: 66.66%; }
+
+#lb-layout-editor .row.side-left .column.one { width: 33.33%; }
+#lb-layout-editor .row.side-left .column.two { width: 66.66%; }
 
 #lb-layout-editor .row.half .column { width: 50%; }
+
+#lb-layout-editor .row.third .column { width: 33.33%; }
+
+#lb-layout-editor .row.quarter .column { width: 25%; }
 
 
 /* Content Item -------------*/
@@ -287,6 +294,93 @@ input.lb-child-items {
 	text-align: center;
 }
 
+/* Add Row -------------*/
+
+#tk-builder-add-row {
+	padding: 2rem 0 4rem;
+}
+
+#tk-builder-add-row > header {
+	border-bottom: 2px solid #32373C;
+}
+
+#tk-builder-add-row > header > span {
+	display: inline-block;
+	vertical-align: bottom;
+	background-color: #32373C;
+	padding: 0.25rem 2rem;
+	color: #fff;
+	font-weight: bold;
+	font-size: 12px;
+	border-radius: 4px 4px 0 0;
+}
+
+#tk-builder-add-row .tk-builder-row-options {
+	padding-top: 4px;
+}
+
+
+#tk-builder-add-row .tk-builder-row-options fieldset {
+	width: 16.66%;
+	float: left;
+	cursor: pointer;
+	padding: 4px 0;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+#tk-builder-add-row .tk-builder-row-options fieldset:hover {
+	background-color: rgb(196, 231, 245);
+	border: 1px solid #0085ba;
+}
+
+#tk-builder-add-row .tk-builder-row-options:after {
+	content: '';
+	clear: both;
+	display: block;
+}
+
+#tk-builder-add-row .tk-builder-row-options fieldset .tk-builder-add-row-inner {
+	margin: 0 4px;
+	padding: 4px 0 4px;
+	background-color: #32373C;
+	border-radius: 4px;
+}
+
+#tk-builder-add-row .tk-builder-add-row-columns {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+	margin: 0 4px;
+	padding: 40% 0 0;
+	position: relative;
+}
+
+#tk-builder-add-row .tk-builder-add-row-columns > span {
+	position: absolute;
+	height: 100%;
+	width: 3px;
+	background-color: #32373C;
+	top: 0;
+}
+
+#tk-builder-add-row .tk-layout-side-right span.one { left: 66.66%; }
+#tk-builder-add-row .tk-layout-side-left span.one { left: 33.33%; }
+#tk-builder-add-row .tk-layout-half span.one { left: 50%; }
+#tk-builder-add-row .tk-layout-third span.one { left: 33.33%; }
+#tk-builder-add-row .tk-layout-third span.two { left: 66.66%; }
+#tk-builder-add-row .tk-layout-quarter span.one { left: 25%; }
+#tk-builder-add-row .tk-layout-quarter span.two { left: 50%; }
+#tk-builder-add-row .tk-layout-quarter span.three { left: 75%; }
+
+#tk-builder-add-row .tk-title {
+	padding: 4px;
+	text-transform: uppercase;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 14px;
+	color: #fff;
+}
 
 /*.layout-builder-modal-wrap {
 	position: absolute;

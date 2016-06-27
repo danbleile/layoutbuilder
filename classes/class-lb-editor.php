@@ -21,7 +21,7 @@ class LB_Editor {
 	
 	public function the_editor_html( $post ){
 		
-		$items = $this->items_factory->get_content_items_recursive( $post->post_content , array( 'row' , 'pagebreak' ) , 'row' );
+		$items = $this->items_factory->get_children_recursive( $post->post_content , array( 'row' , 'pagebreak' ) , 'row' );
 		
 		$html = '<div id="layout-builder">';
 		
@@ -53,6 +53,8 @@ class LB_Editor {
 			$ids = $this->get_layout_editor_items( $items );
 			
 			$html .= '<input class="lb-child-items" type="text" name="_layout_builder[layout]" value="' . implode(',' , $ids )  . '" />';
+			
+			$html .= $this->get_add_row_html();
 		
 		$html .= '</section>';
 		
@@ -67,23 +69,91 @@ class LB_Editor {
 		
 		foreach( $items as $item ){
 			
-			$forms = array_merge( $forms , $item->get_forms_array_recursive() );
+			//$forms = array_merge( $forms , $item->get_forms_array_recursive() );
 			
 		} // end foreach
 		
 		$html = '<section id="lb-form-editor">';
 		
-		foreach( $forms as $form_id => $form_html ){
+		$forms = $this->get_items_forms_recursive( $items );
+		
+		foreach( $forms as $form_array ){
 			
-			$html .= $this->form->get_form_modal( $form_html );
+			$html .= $this->get_form_html( $form_array );
 			
 		} // end foreach
+		
+		for( $i = 0; $i < 10; $i++ ){
+			
+			$item = $this->items_factory->get_item('text');
+			
+			$f_array = $item->get_item_form_array();
+			
+			$html .= $this->get_form_html( $f_array , 'inactive-editor' );
+			
+		} // end for
 		
 		$html .= '</section>';
 		
 		return $html;
 		
 	}
+	
+	/**
+	 * Get the html for the form
+	 *
+	 * @param array $form_array Array for the form
+	 * @retrun string HTML
+	 */
+	public function get_form_html( $form_array , $class = '' ){
+		
+		if ( ! empty( $form_array[ 'type'] ) ){
+			
+			$class .= ' tk-form-type-' . $form_array[ 'type'];
+			
+		};
+			
+		$html = $this->form->get_form_html( $form_array['id'] , $form_array['form'] , 'Edit Item' , 'do-edit-item-action close-modal-action' , 'Done' , $class );
+			
+		return $this->form->get_form_modal( $html );
+		
+	} // end get_form_html
+	
+	
+	/**
+	 * Get all item forms
+	 * 
+	 * @param array $items Array of Item objects
+	 * @return array Forms array
+	 */
+	public function get_items_forms_recursive( $items ){
+		
+		$forms = array();
+		
+		foreach( $items as $item ){
+			
+			$form = $item->get_item_form_array();
+			
+			if ( $form ){
+				
+				$forms[] = $form;
+				
+			} // end if
+			
+			$child_forms = $this->get_items_forms_recursive( $item->get_children() );
+			
+			if ( $child_forms ){
+				
+				$forms = array_merge( $forms , $child_forms );
+				
+			} // end if
+			
+			
+		} // end foreach
+		
+		return $forms;
+		
+	} // end get_items_forms_recursive
 	
 	
 	protected function get_layout_editor_items( $items ){
@@ -124,6 +194,26 @@ class LB_Editor {
 		return $modal;
 		
 	} // end get_wrap_modal_html
+	
+	
+	/**
+	 * Get the add row form html
+	 *
+	 * @return string HTML for the add row form
+	 */
+	protected function get_add_row_html(){
+		
+		$col = array('zero','one','two','three','four','five','six','seven','eight','nine','ten');
+		
+		$layouts = $this->items_factory->get_layouts();
+		
+		ob_start();
+		
+		include plugin_dir_path( dirname(__FILE__) ) . 'inc/editor-add-row.php';
+		
+		return ob_get_clean();
+		
+	} // end get_add_row_html
 	
 	
 	public function add_editor_scripts(){
