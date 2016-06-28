@@ -35,6 +35,8 @@ class TKD_Items_Factory {
 							$item->get_default_children() 
 							);
 						
+						$item->set_children( $children , $this );
+						
 					} // end if
 					
 				} // end if
@@ -53,6 +55,12 @@ class TKD_Items_Factory {
 	public function get_items_from_content( $content , $allowed , $default = false ){
 		
 		$items = array();
+		
+		if ( 'column-items' == $allowed ){
+			
+			$allowed = $this->shortcodes->get_column_shortcodes();
+			
+		} // end if
 		
 		if ( $allowed ){
 		

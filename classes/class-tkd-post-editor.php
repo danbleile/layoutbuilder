@@ -28,10 +28,38 @@ class TKD_Post_Editor {
 		
 	} // end the_editor
 	
+	
 	public function the_layout_editor( $post , $items){
 		
-		var_dump( $items );
+		$items_html = $this->get_editor_items_html( $items );
+		
+		var_dump( $items_html);
 		
 	} // end the_layout_editor
+	
+	
+	public function get_editor_items_html( $items ){
+		
+		$html = '';
+		
+		foreach( $items as $item ){
+			
+			if ( $children = $item->get_children() ){
+				
+				$inner_content = $this->get_editor_items_html( $children );
+				
+			} else {
+				
+				$inner_content = $item->get_editor_content();
+				
+			} // end if
+			
+			$html .= $item->get_editor_html( $inner_content );
+			
+		} // end foreach
+		
+		return $html;
+		
+	} // end get_editor_items_html
 	
 } // end TKD_Post_Editor

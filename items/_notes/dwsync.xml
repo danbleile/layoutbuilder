@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="class-tkd-item.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131115454831103020" remote="131115454800000000" Dst="2" />
-<file name="class-tkd-item-row.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131115437852068969" remote="131115437400000000" Dst="2" />
+<file name="class-tkd-item.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131116228369140056" remote="131116228200000000" Dst="2" />
+<file name="class-tkd-item-row.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131116230575774265" remote="131116230000000000" Dst="2" />
+<file name="class-tkd-item-column.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131116240368290229" remote="131116240200000000" Dst="2" />
+<file name="class-tkd-item-text.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131116240519455009" remote="131116240200000000" Dst="2" />
 </dwsync>
