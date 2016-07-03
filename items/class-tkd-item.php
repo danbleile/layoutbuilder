@@ -5,6 +5,8 @@ abstract class TKD_Item {
 	
 	protected $slug;
 	
+	protected $title;
+	
 	protected $settings;
 	
 	protected $content;
@@ -79,6 +81,13 @@ abstract class TKD_Item {
 		
 	} // end get_slug
 	
+	
+	public function get_title(){
+		
+		return $this->title;
+		
+	} // end get_slug
+	
 	public function get_content(){
 		
 		return $this->content;
@@ -86,9 +95,27 @@ abstract class TKD_Item {
 	} // end get_content
 	
 	
-	public function get_settings(){
+	public function get_settings( $key = false ){
 		
-		return $this->settings;
+		$settings = $this->settings;
+		
+		if ( $key ){
+			
+			if ( array_key_exists( $key , $settings ) ){
+				
+				return $settings[ $key ];
+				
+			} else {
+				
+				return '';
+				
+			} // end if
+			
+		} else {
+		
+			return $settings;
+		
+		} // end if
 		
 	} // end get_settings
 	
@@ -128,7 +155,25 @@ abstract class TKD_Item {
 			
 		} else {
 			
-			$html = $this->get_content();
+			$content = apply_filters( 'tkd_the_content' , $this->get_content() );
+			
+			if ( ! $content  && method_exists( $this , 'get_editor_default_content' ) ){
+				
+				$content = $this->get_editor_default_content();
+				
+			} // end if
+			
+			$title = $this->get_title();
+			
+			$class = array( 'tkd-builder-item' , 'tkd-' . $this->get_slug() , 'tkd-builder-content-item' );
+			
+			$id = $this->get_id();
+			
+			ob_start();
+			
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-content-item.php';
+			
+			$html = ob_get_clean();
 			
 		} // end if
 		

@@ -1,0 +1,198 @@
+#tkd-layout-editor .tkd-row {
+	background-color: rgb(50, 55, 60);
+	border-top: 1px solid rgb(67, 74, 80);
+    border-bottom: 1px solid rgb(33, 37, 40);
+	padding-bottom: 8px;
+}
+
+#tkd-layout-editor .tkd-row > header {
+	position: relative;
+}
+
+#tkd-layout-editor .tkd-row > header > a {
+	display: inline-block;
+    height: 30px;
+    width: 30px;
+    vertical-align: top;
+}
+
+#tkd-layout-editor .tkd-row > header > a.tkd-edit-settings-action {
+	background-position: center center;
+    background-size: 18px auto;
+    font-size: 0px;
+	background-image: url(../images/settings-icon.png);
+    background-repeat: no-repeat;
+}
+
+#tkd-layout-editor .tkd-row > header > a.tkd-remove-item-action {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-position: center center;
+    background-size: 18px auto;
+    font-size: 0px;
+	background-image: url(../images/close-icon.png);
+    background-repeat: no-repeat;
+}
+
+#tkd-layout-editor .tkd-row > .items-set {
+	padding: 0 4px;
+	box-sizing: border-box;
+}
+
+#tkd-layout-editor .tkd-row > .items-set:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+/* -------------------------------------------------------------------------------------- */
+
+#tkd-layout-editor .tkd-column {
+	float: left;
+	padding: 0 4px;
+	box-sizing: border-box;
+}
+
+#tkd-layout-editor .tkd-row.single .tkd-column { width: 100%;}
+#tkd-layout-editor .tkd-row.half .tkd-column { width: 50%;}
+
+#tkd-layout-editor .tkd-column > .items-set {
+	background-color: #dddddd;
+	border-radius: 6px;
+	padding: 1rem 1rem 1px;
+	box-sizing: border-box;
+}
+
+/* -------------------------------------------------------------------------------------- */
+
+#tkd-layout-editor .tkd-builder-content-item {
+	background-color: #ffffff;
+	border-radius: 4px;
+	margin-bottom: 1rem;
+	padding: 0;
+}
+
+#tkd-layout-editor .tkd-builder-content-item > header {
+	border-bottom: 1px solid #ddd;
+	height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    text-transform: uppercase;
+	padding: 0 0.75rem;
+	color: #aaa;
+    font-weight: bold;
+	position: relative;
+}
+
+#tkd-layout-editor .tkd-builder-content-item > header > a.tkd-remove-item-action {
+	position: absolute;
+	height: 24px;
+	width: 24px;
+	top: 0;
+	right: 0.25rem;
+	background-position: center center;
+    background-size: 14px auto;
+    font-size: 0px;
+	background-image: url(../images/close-icon.png);
+    background-repeat: no-repeat;
+}
+
+#tkd-layout-editor .tkd-builder-content-item iframe.tkd-the-content-frame {
+	width: 100%;
+}
+
+#tkd-layout-editor .tkd-builder-content-item textarea.tkd-the-content {
+	display: none
+}
+
+/* -------------------------------------------------------------------------------------- */
+
+#tkd-add-row {
+	padding: 3rem 0 2rem;
+}
+
+#tkd-add-row > header {
+	border-bottom: 2px solid #0085ba;
+}
+
+#tkd-add-row > header .tkd-title {
+	display: inline-block;
+	background: #0085ba;
+	color: #fff;
+	padding: 0.25rem 2rem;
+	border-radius: 4px 4px 0 0;
+}
+
+#tkd-add-row ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#tkd-add-row:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+#tkd-add-row .tkd-add-row-wrapper{
+	margin-top: 0.5rem;
+}
+
+#tkd-add-row .tkd-add-row-wrapper > li {
+	width: 16.66%;
+    float: left;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+#tkd-add-row .tkd-add-row-wrapper > li:hover {
+	background-color: rgb(196, 231, 245);
+	border: 1px solid #0085ba;
+}
+
+#tkd-add-row .tkd-add-row-wrapper > li > ul {
+	background: rgb(50, 55, 60);
+	padding: 4px;
+	box-sizing: border-box;
+	border-radius: 6px;
+}
+
+#tkd-add-row .tkd-add-row-wrapper > li > ul > li.tkd-add-layout-item-icon {
+	padding: 0 0 40%;
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	position: relative;
+}
+
+#tkd-add-row .tkd-add-row-wrapper > li > ul > li.tkd-add-layout-item-icon .tkd-add-layout-split {
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 3px;
+	background-color: rgb(50, 55, 60);
+}
+
+#tkd-add-row .tkd-add-row-wrapper > li > ul > li.tkd-add-layout-item-text {
+	color: #ccc;
+	text-transform: uppercase;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
+}
+
+#tkd-add-row .tkd-add-layout-item-side-right .tkd-split-1 { left: 70%; }
+
+#tkd-add-row .tkd-add-layout-item-side-left .tkd-split-1 { left: 30%; }
+
+#tkd-add-row .tkd-add-layout-item-half .tkd-split-1 { left: 50%; }
+
+#tkd-add-row .tkd-add-layout-item-third .tkd-split-1 { left: 33.33%; }
+#tkd-add-row .tkd-add-layout-item-third .tkd-split-2 { left: 66.66%; }
+
+#tkd-add-row .tkd-add-layout-item-quarter .tkd-split-1 { left: 25%; }
+#tkd-add-row .tkd-add-layout-item-quarter .tkd-split-2 { left: 50%; }
+#tkd-add-row .tkd-add-layout-item-quarter .tkd-split-3 { left: 75%; }

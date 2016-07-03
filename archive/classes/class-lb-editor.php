@@ -19,6 +19,10 @@ class LB_Editor {
 	} // end __construct
 	
 	
+	public function init(){
+	} // end init
+	
+	
 	public function the_editor_html( $post ){
 		
 		$items = $this->items_factory->get_children_recursive( $post->post_content , array( 'row' , 'pagebreak' ) , 'row' );

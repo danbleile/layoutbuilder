@@ -4,11 +4,28 @@ class TKD_Items_Factory {
 	
 	protected $shortcodes;
 	
+	//@var array Defined layouts
+	protected $layouts = array(
+		'single'     => array( 'columns' => 1, 'label' => 'Single' ),
+		'side-right' => array( 'columns' => 2, 'label' => 'Sidebar Right' ),
+		'side-left'  => array( 'columns' => 2, 'label' => 'Sidebar Left' ),
+		'half'       => array( 'columns' => 2, 'label' => 'Halves' ),
+		'third'      => array( 'columns' => 3, 'label' => 'Thirds' ),
+		'quarter'    => array( 'columns' => 4, 'label' => 'Quarters' ),
+	);
+	
 	public function __construct( $shortcodes ){
 		
 		$this->shortcodes = $shortcodes;
 		
 	} // end __construct
+	
+	
+	public function get_layouts(){
+		
+		return $this->layouts;
+		
+	} // end get_layouts
 	
 	
 	public function get_item( $slug , $settings = array() , $content = '' , $get_children = true ){
@@ -34,6 +51,12 @@ class TKD_Items_Factory {
 							$item->get_allowed_children(), 
 							$item->get_default_children() 
 							);
+							
+						if ( 'row' == $item->get_slug() ){
+							
+							$this->check_row_columns( $item , $children );
+							
+						} // end if
 						
 						$item->set_children( $children , $this );
 						
@@ -49,7 +72,46 @@ class TKD_Items_Factory {
 		
 	} // end get_item
 	
-
+	
+	public function check_row_columns( $item, &$children ){
+		
+		$layout = $item->get_settings('layout');
+		
+		$layouts = $this->get_layouts();
+		
+		if ( array_key_exists( $layout , $layouts ) ){
+			
+			$layout = $layouts[ $layout ];
+			
+			if ( count( $children ) < $layout['columns'] ){ // Less columns than it should
+				
+				$t = $layout['columns'] - count( $children );
+				
+				for( $i = 0; $i < $t; $i++ ){
+					
+					$children[] = $this->get_item( 'column' );
+					
+				} // end for
+				
+			} else if ( count( $children ) > $layout['columns'] ){ // More columns than it should
+			
+				$t = count( $children ) - $layout['columns'];
+				
+				$over_content = '';
+				
+				for( $i = $layout['columns']; $i <= count( $children ); $i++ ){
+					
+					$ci = ( $i - 1 );
+					
+					$over_content .= $children[ $ci ]->get_content();
+					
+				} // end for
+				
+			} // end if
+			
+		} // end if
+		
+	} // end check_row_columns
 	
 	
 	public function get_items_from_content( $content , $allowed , $default = false ){

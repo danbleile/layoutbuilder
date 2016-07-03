@@ -4,6 +4,8 @@ class TKD_Item_Column extends TKD_Item {
 	
 	protected $slug = 'column';
 	
+	protected $title = 'Column';
+	
 	protected $allowed_childen = 'column-items';
 	
 	protected $default_children = 'text';
@@ -11,7 +13,7 @@ class TKD_Item_Column extends TKD_Item {
 	
 	protected function the_editor( $settings , $content ){
 		
-		$class = array( 'tkd-builder-item' );
+		$class = array( 'tkd-builder-item' , 'tkd-' . $this->get_slug() );
 		
 		ob_start();
 		

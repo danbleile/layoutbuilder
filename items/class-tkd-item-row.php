@@ -4,6 +4,8 @@ class TKD_Item_Row extends TKD_Item {
 	
 	protected $slug = 'row';
 	
+	protected $title = 'Row';
+	
 	protected $allowed_childen = array('column');
 	
 	protected $default_children = 'column';
@@ -11,7 +13,9 @@ class TKD_Item_Row extends TKD_Item {
 	
 	protected function the_editor( $settings , $content ){
 		
-		$class = array( 'tkd-builder-item' );
+		$class = array( 'tkd-builder-item' , 'tkd-' . $this->get_slug() , $this->get_settings('layout') );
+		
+		$id = $this->get_id();
 		
 		ob_start();
 		

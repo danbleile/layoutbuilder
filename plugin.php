@@ -10,6 +10,8 @@ Version: 0.0.1
 
 class TKD_Layout_Builder {
 	
+	public static $version = '0.0.1';
+	
 	public static $instance;
 	
 
@@ -42,15 +44,35 @@ class TKD_Layout_Builder {
 		require_once 'classes/class-tkd-items-factory.php';
 		$items_factory = new TKD_Items_Factory( $shortcodes );
 		
+		add_action( 'init' , array( $this , 'add_tkd_the_content' ), 1 );
+		
 		if ( is_admin() ){
 			
 			require_once 'classes/class-tkd-post-editor.php';
 			$editor = new TKD_Post_Editor( $items_factory );
 			$editor->init();
 			
+			require_once 'classes/class-tkd-ajax.php';
+			$ajax = new TKD_Ajax( $items_factory , $editor );
+			$ajax->init();
+			
 		} // end if
 		
-	}
+	} // end init
+	
+	/**
+	 * Create custom filter to mirror the_content
+	 */
+	public function add_tkd_the_content(){
+		
+		add_filter( 'tkd_the_content', 'wptexturize'        );
+		add_filter( 'tkd_the_content', 'convert_smilies'    );
+		add_filter( 'tkd_the_content', 'convert_chars'      );
+		add_filter( 'tkd_the_content', 'wpautop'            );
+		add_filter( 'tkd_the_content', 'shortcode_unautop'  );
+		add_filter( 'tkd_the_content', 'prepend_attachment' );
+		
+	} // end add_tk_the_content
 	
 } // end TKD_Layout_Builder
 

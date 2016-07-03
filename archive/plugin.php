@@ -100,7 +100,7 @@ class TK_Layout_Builder {
 	/**
 	 * Create custom filter to mirror the_content
 	 */
-	public function add_tk_the_content(){
+	public function add_tkd_the_content(){
 		
 		add_filter( 'tk_the_content', 'wptexturize'        );
 		add_filter( 'tk_the_content', 'convert_smilies'    );

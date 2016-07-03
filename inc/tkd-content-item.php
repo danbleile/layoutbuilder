@@ -1,0 +1,7 @@
+<div class="<?php echo implode( ' ' , $class );?>">
+	<header><?php echo $title;?><a href="#" class="tkd-remove-item-action"></a></header>
+    <div class="items-content">
+    	<iframe src="about:blank" frameborder="0" class="tkd-the-content-frame" scrolling="no"></iframe>
+    </div>
+    <footer><textarea class="tkd-the-content"><?php echo $content;?></textarea></footer>
+</div>
