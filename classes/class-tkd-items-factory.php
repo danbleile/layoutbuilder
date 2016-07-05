@@ -4,6 +4,8 @@ class TKD_Items_Factory {
 	
 	protected $shortcodes;
 	
+	protected $forms;
+	
 	//@var array Defined layouts
 	protected $layouts = array(
 		'single'     => array( 'columns' => 1, 'label' => 'Single' ),
@@ -14,9 +16,11 @@ class TKD_Items_Factory {
 		'quarter'    => array( 'columns' => 4, 'label' => 'Quarters' ),
 	);
 	
-	public function __construct( $shortcodes ){
+	public function __construct( $shortcodes , $forms ){
 		
 		$this->shortcodes = $shortcodes;
+		
+		$this->forms =  $forms;
 		
 	} // end __construct
 	

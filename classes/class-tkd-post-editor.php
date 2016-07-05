@@ -4,9 +4,13 @@ class TKD_Post_Editor {
 	
 	protected $item_factory;
 	
-	public function __construct( $item_factory ){
+	protected $forms;
+	
+	public function __construct( $item_factory , $forms ){
 		
 		$this->item_factory = $item_factory;
+		
+		$this->forms = $forms;
 		
 	} // end __construct
 	
@@ -34,6 +38,16 @@ class TKD_Post_Editor {
 	
 	
 	public function the_layout_editor( $post , $items){
+		
+		$input_name = $this->forms->get_prefix() . '[layout][items]';
+		
+		$child_ids = array();
+		
+		foreach( $items as $item ){
+			
+			$child_ids[] = $item->get_id();
+			
+		} // end foreach
 		
 		$items_html = $this->get_editor_items_html( $items );
 		

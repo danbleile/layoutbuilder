@@ -45,6 +45,8 @@ tkd_editor = {
 			
 			tkd_editor.layout.eq_columns();
 			
+			tkd_editor.layout.s_items();
+			
 		}, // end set_layout
 		
 		s_content: function( container ){
@@ -64,6 +66,28 @@ tkd_editor = {
 			}); // end each
 			
 		},
+		
+		s_items: function(){
+			
+			tkd_editor.layout.wrap.find('.items-set').each( function(){
+				
+				var items = new Array();
+				
+				var c = jQuery( this );
+				
+				var inpt = c.siblings('.tkd-child-items-input');
+				
+				c.children('.tkd-builder-item').each( function(){
+					
+					items.push( jQuery( this ).attr('id') );
+					
+				});
+				
+				inpt.val( items.join(',') );
+				
+			}) // end each
+			
+		}, // end s_items
 		
 		s_frame_h: function(){
 			

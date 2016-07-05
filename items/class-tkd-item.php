@@ -1,6 +1,8 @@
 <?php
 abstract class TKD_Item {
 	
+	protected $forms;
+	
 	protected $id;
 	
 	protected $slug;
@@ -28,6 +30,8 @@ abstract class TKD_Item {
 		$this->set_content( $content );
 		
 		$this->is_editor = $is_editor;
+		
+		$this->forms = new TKD_Forms();
 		
 	} // end __construct
 	
@@ -180,6 +184,46 @@ abstract class TKD_Item {
 		return $html;
 		
 	} // end get_editor_html
+	
+	
+	public function get_input_name( $key = false , $is_setting = true ){
+		
+		$inpt = $this->forms->get_prefix();
+		
+		$inpt .= '[' . $this->get_id() . ']';
+		
+		if ( $key ){
+			
+			if ( $is_setting ){
+				
+				$inpt .= '[settings]';
+				
+			} // end if
+			
+			$inpt .= '[' . $key . ']';
+			
+		} // end if
+		
+		return $inpt;
+		
+	} // end get_input_name
+	
+	
+	public function get_child_ids(){
+		
+		$child_ids = array();
+		
+		$children = $this->get_children();
+		
+		foreach( $children as $child ){
+			
+			$child_ids[] = $child->get_id();
+			
+		} // end foreach
+		
+		return $child_ids;
+		
+	} // end get_child_ids
 	
 	
 	

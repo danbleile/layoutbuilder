@@ -15,6 +15,12 @@ class TKD_Item_Column extends TKD_Item {
 		
 		$class = array( 'tkd-builder-item' , 'tkd-' . $this->get_slug() );
 		
+		$id = $this->get_id();
+		
+		$child_ids = implode( ',' , $this->get_child_ids() );
+		
+		$input_name = $this->get_input_name();
+		
 		ob_start();
 		
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-item-column.php';

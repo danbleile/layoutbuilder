@@ -41,20 +41,31 @@ class TKD_Layout_Builder {
 		require_once 'classes/class-tkd-shortcodes.php';
 		$shortcodes = new TKD_Shortcodes();
 		
+		require_once 'classes/class-tkd-forms.php';
+		$forms = new TKD_Forms();
+		
 		require_once 'classes/class-tkd-items-factory.php';
-		$items_factory = new TKD_Items_Factory( $shortcodes );
+		$items_factory = new TKD_Items_Factory( $shortcodes , $forms );
 		
 		add_action( 'init' , array( $this , 'add_tkd_the_content' ), 1 );
 		
 		if ( is_admin() ){
 			
 			require_once 'classes/class-tkd-post-editor.php';
-			$editor = new TKD_Post_Editor( $items_factory );
+			$editor = new TKD_Post_Editor( $items_factory , $forms );
 			$editor->init();
 			
 			require_once 'classes/class-tkd-ajax.php';
 			$ajax = new TKD_Ajax( $items_factory , $editor );
 			$ajax->init();
+			
+			if ( isset( $_POST[ $forms->get_prefix() ] ) ){
+			
+				require_once 'classes/class-tkd-save.php';
+				$save = new TKD_Save( $items_factory , $shortcodes );
+				$save->init();
+			
+			} // end if
 			
 		} // end if
 		
