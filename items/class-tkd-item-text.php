@@ -12,4 +12,15 @@ class TKD_Item_Text extends TKD_Item {
 		
 	} // end get_editor_default_content
 	
+	
+	protected function the_form( $settings , $content ){
+		
+		$input = $this->forms->get_content_prefix() . $this->get_id();
+		
+		$html = $this->forms->get_textarea( $input , $content );
+		
+		return $html;
+		
+	} // end the_form
+	
 }

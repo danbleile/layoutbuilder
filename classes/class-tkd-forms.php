@@ -59,6 +59,24 @@ class TKD_Forms {
 	} // end get_hidden_field
 	
 	
+	public function get_textarea( $name , $value , $args = array() ){
+		
+		$defaults = array(
+			'class'      => '',
+			'id'         => '',
+			'label'      => false,
+			'wrap_field' => true,
+		);
+		
+		$this->check_defaults( $args , $defaults );
+		
+		$html = '<textarea name="' . $name . '">' . $value . '</textarea>';
+		
+		return $html;
+		
+	} // end get_textarea
+	
+	
 	public function check_defaults ( &$args , $defaults ){
 		
 		foreach( $defaults as $key => $value ){

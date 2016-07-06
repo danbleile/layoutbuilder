@@ -30,4 +30,13 @@ class TKD_Item_Row extends TKD_Item {
 	} // end the_editor
 	
 	
+	protected function the_form( $settings , $content ){
+		
+		$html = $this->forms->get_text_field( $this->get_input_name( 'layout' ) , $settings['layout'] );
+		
+		return $html;
+		
+	} // end the_form
+	
+	
 }

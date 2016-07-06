@@ -11,6 +11,8 @@ tkd_editor = {
 		
 		tkd_editor.ajax.init();
 		
+		tkd_editor.forms.init();
+		
 	}, // end init
 	
 	layout: {
@@ -37,7 +39,16 @@ tkd_editor = {
 			
 			jQuery( window ).resize('resize' , function(){ tkd_editor.layout.set_layout(); });
 			
+			container.on('click' , '.tkd-remove-item-action' , function( event ) {
+				
+				event.preventDefault();
+				
+				tkd_editor.layout.remove_item( jQuery( this ) );
+				
+			});
+			
 		}, // end bind events
+		
 		
 		set_layout: function(){
 			
@@ -166,7 +177,21 @@ tkd_editor = {
 			
 			tkd_editor.layout.apply_sort( itm );
 			
-		} // end response
+			tkd_editor.forms.insert_forms( response.forms );
+			
+		}, // end response
+		
+		remove_item: function( ic ){
+			
+			ic.closest('.tkd-builder-item').slideUp('fast' , function(){
+				
+				jQuery( this ).remove();
+				
+				tkd_editor.layout.set_layout();
+			
+			});
+			
+		}, // end remove item
 		
 	}, // end layout
 	
@@ -226,6 +251,8 @@ tkd_editor = {
 				data,
 				function( response ){
 					
+					console.log( response );
+					
 					tkd_editor.layout[ callback ]( response );
 					
 				},
@@ -235,6 +262,51 @@ tkd_editor = {
 		}, // end query
 		
 	}, // end ajax
+	
+	forms : {
+		
+		wrap: false,
+		
+		init: function(){
+			
+			tkd_editor.forms.wrap = jQuery('#tkd-settings-editor');
+			
+		}, // end init
+		
+		insert_forms: function( forms ){
+			
+			for ( var key in forms ) {
+				
+				// skip loop if the property is from prototype
+    			if ( ! forms.hasOwnProperty( key ) ) continue;
+				
+				var form = forms[ key ];
+				
+				if ( 'text' == form.type ){ // uses wpeditor
+					
+					
+				} else {
+					
+					tkd_editor.forms.wrap.find('.tkd-forms-set').append( form.html );
+					
+				} // end if
+				
+				console.log( form );
+				
+				/*for( var f_key in form ){
+					
+    				if ( ! form.hasOwnProperty( f_key ) ) continue;
+					
+					console.log( form
+					
+				} // end for*/
+				
+			} // end for
+			
+		} // end insert forms;
+		
+		
+	}, // end forms
 	
 	
 } // end tkd_editor

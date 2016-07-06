@@ -10,7 +10,7 @@ class TKD_Items_Factory {
 	protected $layouts = array(
 		'single'     => array( 'columns' => 1, 'label' => 'Single' ),
 		'side-right' => array( 'columns' => 2, 'label' => 'Sidebar Right' ),
-		'side-left'  => array( 'columns' => 2, 'label' => 'Sidebar Left' ),
+		'side-left'  => array( 'columns' => 2, 'label' => 'Sidebar Left' ), 
 		'half'       => array( 'columns' => 2, 'label' => 'Halves' ),
 		'third'      => array( 'columns' => 3, 'label' => 'Thirds' ),
 		'quarter'    => array( 'columns' => 4, 'label' => 'Quarters' ),
@@ -62,7 +62,7 @@ class TKD_Items_Factory {
 							
 						} // end if
 						
-						$item->set_children( $children , $this );
+						$item->set_children( $children );
 						
 					} // end if
 					
@@ -77,7 +77,7 @@ class TKD_Items_Factory {
 	} // end get_item
 	
 	
-	public function check_row_columns( $item, &$children ){
+	public function check_row_columns( $item, &$children ){  
 		
 		$layout = $item->get_settings('layout');
 		
@@ -173,6 +173,61 @@ class TKD_Items_Factory {
 		}// end if
 		
 	} // end get_items_from_content
+	
+	
+	public function get_items_from_save( $items_ids ){
+		
+		$items = array();
+		
+		$item_ids = explode( ',' , $items_ids );
+		
+		if ( $item_ids ){
+			
+			foreach( $item_ids as $id ){
+				
+				$item_post = 
+				
+				$id_info = explode( '_' , $id );
+				
+				if ( ! empty( $_POST[ $this->forms->get_prefix() ][ $id ]['settings'] ) ){
+					
+					$settings = $_POST[ $this->forms->get_prefix() ][ $id ]['settings'];
+					
+				} else {
+					
+					$settings = array();
+					
+				} // end if
+				
+				if ( ! empty( $_POST[ $this->forms->get_content_prefix() . $id ] ) ){
+					
+					$content = $_POST[ $this->forms->get_content_prefix() . $id ];
+					
+				} else {
+					
+					$content = '';
+					
+				} // end if
+				
+				$item = $this->get_item( $id_info[0] , $settings , $content , false );
+				
+				if ( ! empty( $_POST[ $this->forms->get_prefix() ][ $id ]['items'] ) ){
+					
+					$children = $this->get_items_from_save( $_POST[ $this->forms->get_prefix() ][ $id ]['items'] );
+					
+					$item->set_children( $children );
+					
+				} // end if;
+				
+				$items[] = $item;
+				
+			} // end foreach
+			
+		} // end if
+		
+		return $items;
+		
+	} // end get_items_from_save
 	
 	
 	public function get_content_item_array( $content, $regex , $default = false ){

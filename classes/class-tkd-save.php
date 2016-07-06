@@ -17,7 +17,7 @@ class TKD_Save {
 	
 	public function init(){
 		
-		add_filter( 'content_save_pre' , array( $save , 'save_content' ) , 99 );
+		add_filter( 'content_save_pre' , array( $this , 'save_content' ) , 99 );
 		
 	} // end init
 	
@@ -36,6 +36,14 @@ class TKD_Save {
 
 			return $content;
 
+		} // end if
+		
+		if ( isset( $_POST['_tkd_builder']['layout']['items'] ) ){
+			
+			$items = $this->items_factory->get_items_from_save( $_POST['_tkd_builder']['layout']['items'] );
+			
+			var_dump( $items );
+			
 		} // end if
 		
 	} // end save_content

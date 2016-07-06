@@ -50,7 +50,7 @@ abstract class TKD_Item {
 	} // end set_content
 	
 	
-	public function set_children( $children , $items_factory ){
+	public function set_children( $children ){
 		
 		$this->children = $children;
 		
@@ -184,6 +184,23 @@ abstract class TKD_Item {
 		return $html;
 		
 	} // end get_editor_html
+	
+	
+	public function get_form_html(){
+		
+		$html = '';
+		
+		if ( method_exists( $this , 'the_form' ) ){
+			
+			$form = $this->the_form( $this->get_settings() , $this->get_content() );
+			
+			$html .= $form;
+			
+		} // end if
+		
+		return $html;
+		
+	} // end get_form_html
 	
 	
 	public function get_input_name( $key = false , $is_setting = true ){

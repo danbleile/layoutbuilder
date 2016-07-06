@@ -41,6 +41,8 @@ class TKD_Ajax {
 			
 			$json['editor'] = $this->editor->get_editor_items_html( array( $item ) );
 			
+			$json['forms'] = $this->editor->get_items_forms( array( $item ) , true );
+			
 		} // end if
 		
 		echo json_encode( $json );

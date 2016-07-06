@@ -32,6 +32,8 @@ class TKD_Post_Editor {
 		
 		echo $this->the_layout_editor( $post , $items );
 		
+		echo $this->the_settings_editor( $post , $items );
+		
 		echo '</div>';
 		
 	} // end the_editor
@@ -70,6 +72,22 @@ class TKD_Post_Editor {
 	} // end the_layout_editor
 	
 	
+	public function the_settings_editor( $post , $items ){
+		
+		$fomrs = '';
+		
+		$forms_html = $this->get_items_forms( $items , false );
+		
+		ob_start();
+		
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-settings-editor.php';
+			
+		return ob_get_clean();
+		
+		
+	} // end the_settings_editor
+	
+	
 	public function get_add_layout_item( $slug , $label, $class , $columns = 0, $settings = array(), $action = 'tkd_get_part'){
 		
 		ob_start();
@@ -104,6 +122,48 @@ class TKD_Post_Editor {
 		return $html;
 		
 	} // end get_editor_items_html
+	
+	
+	public function get_items_forms( $items , $as_array = true ){
+		
+		$fa = array();
+		
+		foreach( $items as $item ){
+			
+			if ( $children = $item->get_children() ){
+				
+				$cha = $this->get_items_forms( $children );
+				
+				$fa = array_merge( $fa , $cha );
+				
+			} // end if
+			
+			$fa[ $item->get_id() ] = array(
+				'type' => $item->get_slug(),
+				'html' => $item->get_form_html(),
+			);
+			
+		} // end foreach
+		
+		if ( $as_array ){
+			
+			return $fa;
+			
+		} else {
+			
+			$form_html = '';
+			
+			foreach( $fa as $id => $form ){
+				
+				$form_html .= $form['html'];
+				
+			} // end foreach
+			
+			return $form_html;
+			
+		}// end if
+		
+	} // end get_forms_array
 	
 	
 	/**
