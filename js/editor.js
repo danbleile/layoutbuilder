@@ -299,7 +299,14 @@ var TKD_Editor = {
 				var form = forms[ key ];
 				
 				if ( 'text' == form.type ){ // uses wpeditor
+				
+					var ne = TKD_Editor.forms.wrap.find('.tkd-modal.empty-editor').first();
 					
+					ne.find('.tkd-form').attr( 'id' , 'tkd-form-' + key );
+					
+					ne.removeClass( 'empty-editor' );
+					
+					ne.find('textarea').attr('name' , '_tkd_content_' + key );
 					
 				} else {
 					

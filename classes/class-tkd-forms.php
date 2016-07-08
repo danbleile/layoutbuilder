@@ -82,6 +82,7 @@ class TKD_Forms {
 		$defaults = array(
 			'title'        => 'Edit Item',
 			'action'       => 'tkd-edited-item',
+			'class'        => '',
 			'button_label' => 'Done',
 			'allow_cancel' => true,
 			'footer_html'  => '',
