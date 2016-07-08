@@ -21,7 +21,45 @@ abstract class TKD_Item {
 	
 	protected $children = array();
 	
-	public function __construct( $settings = array() , $content = '' , $is_editor = true  ){
+	protected $modal_size = 'medium';
+	
+	/* ----------------------------------------------*/
+	
+	public function get_id(){ return $this->id; } // end get_id
+	
+	public function get_slug(){ return $this->slug; } // end get_slug
+	
+	public function get_title(){ return $this->title; } // end get_slug
+	
+	public function get_content(){ return $this->content; } // end get_content
+	
+	public function get_settings(){ return $this->settings; } // end get_settings
+	
+	public function get_allowed_children(){ return $this->allowed_childen; }
+	
+	public function get_default_children(){ return $this->default_children; }
+	
+	public function get_children(){ return $this->children; }
+	
+	public function get_modal_size(){ return $this->modal_size; }
+	
+	public function get_editor_content(){ return $this->get_content(); }
+	
+	/* ----------------------------------------------*/
+	
+	public function __construct( $forms , $is_editor = false  ){
+		
+		$this->forms = $forms;
+		
+		$this->is_editor = $is_editor;
+		
+	} // end __construct
+	
+	
+	/* ----------------------------------------------*/
+	
+	
+	public function set_item( $settings = array() , $content = '' ){
 		
 		$this->set_id();
 		
@@ -29,11 +67,7 @@ abstract class TKD_Item {
 		
 		$this->set_content( $content );
 		
-		$this->is_editor = $is_editor;
-		
-		$this->forms = new TKD_Forms();
-		
-	} // end __construct
+	} // end set_item
 	
 	
 	public function set_settings( $settings ){
@@ -72,84 +106,24 @@ abstract class TKD_Item {
 	} // end set_id
 	
 	
-	public function get_id(){
-		
-		return $this->id;
-		
-	} // end get_id
+	/* ----------------------------------------------*/
 	
+	public function get_setting( $key ){
+		
+		$settings = $this->get_settings();
 	
-	public function get_slug(){
-		
-		return $this->slug;
-		
-	} // end get_slug
-	
-	
-	public function get_title(){
-		
-		return $this->title;
-		
-	} // end get_slug
-	
-	public function get_content(){
-		
-		return $this->content;
-		
-	} // end get_content
-	
-	
-	public function get_settings( $key = false ){
-		
-		$settings = $this->settings;
-		
-		if ( $key ){
+		if ( array_key_exists( $key , $settings ) ){
 			
-			if ( array_key_exists( $key , $settings ) ){
-				
-				return $settings[ $key ];
-				
-			} else {
-				
-				return '';
-				
-			} // end if
+			return $settings[ $key ];
 			
 		} else {
-		
-			return $settings;
-		
+			
+			return '';
+			
 		} // end if
 		
 	} // end get_settings
 	
-	
-	public function get_allowed_children(){
-		
-		return $this->allowed_childen;
-		
-	}
-	
-	
-	public function get_default_children(){
-		
-		return $this->default_children;
-		
-	}
-	
-	
-	public function get_children(){
-		
-		return $this->children;
-		
-	}
-	
-	
-	public function get_editor_content(){
-		
-		return $this->get_content();
-		
-	}
 	
 	public function get_editor_html( $inner_content ){
 		
@@ -186,7 +160,7 @@ abstract class TKD_Item {
 	} // end get_editor_html
 	
 	
-	public function get_form_html(){
+	public function get_form_html( $as_modal = true ){
 		
 		$html = '';
 		
@@ -194,7 +168,19 @@ abstract class TKD_Item {
 			
 			$form = $this->the_form( $this->get_settings() , $this->get_content() );
 			
-			$html .= $form;
+			if ( ! is_array( $form ) ){
+				
+				$form = array( 'Basic' => $form );
+				
+			} // end if
+			
+			$html .= $this->forms->get_tab_form( 'tkd-form-' . $this->get_id() , array_keys( $form ) , array_values( $form ) );
+			
+		} // end if
+		
+		if ( $as_modal ){
+			
+			$html = $this->forms->get_modal( $html , $args = array( 'size' => $this->get_modal_size() ) );
 			
 		} // end if
 		

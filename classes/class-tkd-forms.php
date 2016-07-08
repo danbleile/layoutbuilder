@@ -77,13 +77,15 @@ class TKD_Forms {
 	} // end get_textarea
 	
 	
-	public function get_modal( $content , $args ){
+	public function get_modal( $content , $args = array() ){
 		
 		$defaults = array(
 			'title'        => 'Edit Item',
 			'action'       => 'tkd-edited-item',
-			'button_label' => false,
-			'extra_action' => true,
+			'button_label' => 'Done',
+			'allow_cancel' => true,
+			'footer_html'  => '',
+			'size'         => 'full',
 		);
 		
 		$this->check_defaults( $args , $defaults );
@@ -95,6 +97,17 @@ class TKD_Forms {
 		return ob_get_clean();
 		
 	} // end get_modal
+	
+	
+	public function get_tab_form( $id , $nav , $sections , $args = array() ){
+		
+		ob_start();
+		
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-tab-form.php';
+		
+		return ob_get_clean();
+		
+	} // end get_subform
 	
 	
 	public function check_defaults ( &$args , $defaults ){

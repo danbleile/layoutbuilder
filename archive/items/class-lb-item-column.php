@@ -23,7 +23,7 @@ class LB_Item_Column extends LB_Item {
 			'column',
 			'layout-item',
 			'structure-item',
-			$col[ $this->get_settings( 'index' ) ]
+			$col[ $this->get_setting( 'index' ) ]
 		);
 		
 		$html = '<div id="' . $this->get_id() . '" class="' . implode( ' ' , $class ) . '">';

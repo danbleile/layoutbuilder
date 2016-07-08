@@ -6,6 +6,8 @@ class TKD_Item_Text extends TKD_Item {
 	
 	protected $title = 'Text/HTML';
 	
+	protected $modal_size = 'large';
+	
 	protected function get_editor_default_content(){
 		
 		return '<div class="tkd-editor-default">Click to add text ...</div>';
@@ -17,10 +19,17 @@ class TKD_Item_Text extends TKD_Item {
 		
 		$input = $this->forms->get_content_prefix() . $this->get_id();
 		
-		$html = $this->forms->get_textarea( $input , $content );
+		ob_start();
 		
-		return $html;
+		wp_editor( $content , $input );
+		
+		//$html = $this->forms->get_textarea( $input , $content );
+		
+		$basic = ob_get_clean();
+		
+		return array( 'Basic' => $basic );
 		
 	} // end the_form
+	
 	
 }

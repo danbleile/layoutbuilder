@@ -1,17 +1,19 @@
 // JavaScript Document 
-tkd_editor = {
+var TKD_Editor = {
 	
 	wrap : false,
 	
 	init: function(){
 		
-		tkd_editor.wrap = jQuery('#tkd_editor');
+		TKD_Editor.wrap = jQuery('#TKD_Editor');
 		
-		tkd_editor.layout.init();
+		TKD_Editor.layout.init();
 		
-		tkd_editor.ajax.init();
+		TKD_Editor.ajax.init();
 		
-		tkd_editor.forms.init();
+		TKD_Editor.forms.init();
+		
+		TKD_Editor.modal.init();
 		
 	}, // end init
 	
@@ -21,29 +23,37 @@ tkd_editor = {
 		
 		init: function(){
 			
-			tkd_editor.layout.wrap = jQuery( '#tkd-layout-editor' );
+			TKD_Editor.layout.wrap = jQuery( '#tkd-layout-editor' );
 			
-			tkd_editor.layout.bind_events( false );
+			TKD_Editor.layout.bind_events( false );
 			
-			tkd_editor.layout.s_content( false );
+			TKD_Editor.layout.s_content( false );
 			
-			tkd_editor.layout.set_layout();
+			TKD_Editor.layout.set_layout();
 			
-			tkd_editor.layout.apply_sort( false );
+			TKD_Editor.layout.apply_sort( false );
 			
 		}, // end init
 		
 		bind_events: function( container ){
 			
-			if ( ! container ) container = tkd_editor.layout.wrap;
+			if ( ! container ) container = TKD_Editor.layout.wrap;
 			
-			jQuery( window ).resize('resize' , function(){ tkd_editor.layout.set_layout(); });
+			jQuery( window ).resize('resize' , function(){ TKD_Editor.layout.set_layout(); });
 			
 			container.on('click' , '.tkd-remove-item-action' , function( event ) {
 				
 				event.preventDefault();
 				
-				tkd_editor.layout.remove_item( jQuery( this ) );
+				TKD_Editor.layout.remove_item( jQuery( this ) );
+				
+			});
+			
+			container.on('click' , '.tkd-edit-item-action' , function( e ) {
+				
+				e.preventDefault();
+				
+				TKD_Editor.forms.show_item_form( jQuery( this ).closest( '.tkd-builder-item' ).attr( 'id') );
 				
 			});
 			
@@ -52,17 +62,17 @@ tkd_editor = {
 		
 		set_layout: function(){
 			
-			tkd_editor.layout.s_frame_h();
+			TKD_Editor.layout.s_frame_h();
 			
-			tkd_editor.layout.eq_columns();
+			TKD_Editor.layout.eq_columns();
 			
-			tkd_editor.layout.s_items();
+			TKD_Editor.layout.s_items();
 			
 		}, // end set_layout
 		
 		s_content: function( container ){
 			
-			if ( ! container ) container = tkd_editor.layout.wrap;
+			if ( ! container ) container = TKD_Editor.layout.wrap;
 			
 			container.find('textarea.tkd-the-content').each( function(){
 				
@@ -80,7 +90,7 @@ tkd_editor = {
 		
 		s_items: function(){
 			
-			tkd_editor.layout.wrap.find('.items-set').each( function(){
+			TKD_Editor.layout.wrap.find('.items-set').each( function(){
 				
 				var items = new Array();
 				
@@ -102,7 +112,7 @@ tkd_editor = {
 		
 		s_frame_h: function(){
 			
-			tkd_editor.layout.wrap.find('iframe.tkd-the-content-frame').each( function(){
+			TKD_Editor.layout.wrap.find('iframe.tkd-the-content-frame').each( function(){
 				
 				var c = jQuery( this );
 				
@@ -116,7 +126,7 @@ tkd_editor = {
 		
 		eq_columns: function(){
 			
-			tkd_editor.layout.wrap.find('.tkd-row').each( function(){
+			TKD_Editor.layout.wrap.find('.tkd-row').each( function(){
 				
 				var c = jQuery( this );
 				
@@ -145,20 +155,20 @@ tkd_editor = {
 		
 		apply_sort: function( container ){
 			
-			if ( ! container ) container = tkd_editor.layout.wrap;
+			if ( ! container ) container = TKD_Editor.layout.wrap;
 			
 			container.find('.items-set.tkd-layout-items').sortable({
 				stop: function( event , ui ){
-					tkd_editor.layout.s_content( false );
-					tkd_editor.layout.set_layout();
+					TKD_Editor.layout.s_content( false );
+					TKD_Editor.layout.set_layout();
 				}
 			});
 			
 			container.find('.tkd-column > .items-set').sortable({
 				connectWith: '.tkd-column > .items-set',
 				stop: function( event , ui ){
-					tkd_editor.layout.s_content( false );
-					tkd_editor.layout.set_layout();
+					TKD_Editor.layout.s_content( false );
+					TKD_Editor.layout.set_layout();
 				}
 			});
 			
@@ -167,17 +177,17 @@ tkd_editor = {
 		
 		insert_row: function( response ){
 			
-			tkd_editor.layout.wrap.find('.tkd-layout-items').append( response.editor );	
+			TKD_Editor.layout.wrap.find('.tkd-layout-items').append( response.editor );	
 			
 			var itm = jQuery('#' + response.id );
 			
-			tkd_editor.layout.s_content( itm );	
+			TKD_Editor.layout.s_content( itm );	
 			
-			tkd_editor.layout.set_layout();
+			TKD_Editor.layout.set_layout();
 			
-			tkd_editor.layout.apply_sort( itm );
+			TKD_Editor.layout.apply_sort( itm );
 			
-			tkd_editor.forms.insert_forms( response.forms );
+			TKD_Editor.forms.insert_forms( response.forms );
 			
 		}, // end response
 		
@@ -187,7 +197,7 @@ tkd_editor = {
 				
 				jQuery( this ).remove();
 				
-				tkd_editor.layout.set_layout();
+				TKD_Editor.layout.set_layout();
 			
 			});
 			
@@ -199,7 +209,7 @@ tkd_editor = {
 		
 		init:function(){
 			
-			tkd_editor.ajax.bind_events();
+			TKD_Editor.ajax.bind_events();
 			
 		}, // end init
 		
@@ -207,7 +217,7 @@ tkd_editor = {
 			
 			jQuery( 'body' ).on('click' , '.tkd-ajax-item' , function( event ){ 
 				event.preventDefault(); 
-				tkd_editor.ajax.do_ajax( jQuery( this ) ) 
+				TKD_Editor.ajax.do_ajax( jQuery( this ) ) 
 			});
 			
 		}, // end bind_events
@@ -219,7 +229,7 @@ tkd_editor = {
 			switch( type ){
 				
 				case 'add-row':
-					tkd_editor.ajax.add_row( itm );
+					TKD_Editor.ajax.add_row( itm );
 					break;
 				
 			} // end switch
@@ -228,9 +238,9 @@ tkd_editor = {
 		
 		add_row: function( itm ){
 			
-			var data = tkd_editor.ajax.serial( itm );
+			var data = TKD_Editor.ajax.serial( itm );
 			
-			tkd_editor.ajax.query( data , 'tk_editor_get_part' , 'insert_row' );
+			TKD_Editor.ajax.query( data , 'tk_editor_get_part' , 'insert_row' );
 			
 		}, // end add row
 		
@@ -253,7 +263,7 @@ tkd_editor = {
 					
 					console.log( response );
 					
-					tkd_editor.layout[ callback ]( response );
+					TKD_Editor.layout[ callback ]( response );
 					
 				},
 				'json'
@@ -269,9 +279,15 @@ tkd_editor = {
 		
 		init: function(){
 			
-			tkd_editor.forms.wrap = jQuery('#tkd-settings-editor');
+			TKD_Editor.forms.wrap = jQuery('#tkd-settings-editor');
+			
+			TKD_Editor.forms.bind_events();
 			
 		}, // end init
+		
+		bind_events: function(){
+			
+		}, // end bind_events
 		
 		insert_forms: function( forms ){
 			
@@ -287,7 +303,7 @@ tkd_editor = {
 					
 				} else {
 					
-					tkd_editor.forms.wrap.find('.tkd-forms-set').append( form.html );
+					TKD_Editor.forms.wrap.find('.tkd-forms-set').append( form.html );
 					
 				} // end if
 				
@@ -303,12 +319,93 @@ tkd_editor = {
 				
 			} // end for
 			
-		} // end insert forms;
+		}, // end insert forms;
+		
+		show_item_form: function( item_id ){
+			
+			var form = TKD_Editor.forms.get_form_by_item_id( item_id );
+			
+			TKD_Editor.modal.show( form.closest('.tkd-modal') );
+			
+		}, // end show_item_form
+		
+		get_form_by_item_id: function( id ){
+			
+			var form = jQuery('.tkd-form').filter('#tkd-form-' + id ).first();
+			
+			return form;
+			
+		}, //get_form_by_item_id
 		
 		
 	}, // end forms
 	
 	
-} // end tkd_editor
+	modal: {
+		
+		bg: false,
+		
+		init: function(){
+			
+			TKD_Editor.modal.insert_bg();
+			
+			TKD_Editor.modal.bg = jQuery( '#tkd-modal-bg');
+			
+			TKD_Editor.modal.bind_events();
+			
+		}, // end init
+		
+		
+		bind_events: function(){
+			
+			jQuery('body').on('click', '.tkd-close-modal-action' , function( e ){
+				
+				e.preventDefault();
+				
+				TKD_Editor.modal.hide();
+				
+			});
+			
+		}, // end bind_events
+		
+		insert_bg: function(){
+			
+			jQuery('body').append( '<div id="tkd-modal-bg" class="tkd-close-modal-action"></div>' );
+			
+		}, // end insert_bg
+		
+		show: function( m ){
+			
+			TKD_Editor.modal.bg.fadeIn( 'fast' , function(){
+				
+				TKD_Editor.modal.set_height( m );
+				
+			});
+			
+		}, // end show
+		
+		hide: function(){
+			
+			jQuery('.tkd-modal').css('top' , '-9999px');
+			
+			TKD_Editor.modal.bg.fadeOut( 'fast' );
+			
+		}, // end hid
+		
+		set_height: function( m ){
+			
+			win_h = jQuery(window).scrollTop();
+			
+			par_off = m.offsetParent().offset().top;
+			
+			frm_h = ( win_h - par_off ) + 60;
+			
+			m.css('top', frm_h ); 
+			
+		}, // end form_set_height
+	}, // end modal
+	
+	
+} // end TKD_Editor
 
-tkd_editor.init();
+TKD_Editor.init();

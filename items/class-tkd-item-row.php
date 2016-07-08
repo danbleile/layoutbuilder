@@ -13,7 +13,7 @@ class TKD_Item_Row extends TKD_Item {
 	
 	protected function the_editor( $settings , $content ){
 		
-		$class = array( 'tkd-builder-item' , 'tkd-' . $this->get_slug() , $this->get_settings('layout') );
+		$class = array( 'tkd-builder-item' , 'tkd-' . $this->get_slug() , $this->get_setting('layout') );
 		
 		$id = $this->get_id();
 		

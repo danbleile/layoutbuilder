@@ -18,7 +18,7 @@ class LB_Item_Row extends LB_Item {
 	public function get_editor_html( $editor_content ){
 		
 		$class = array(
-			$this->get_settings( 'layout' ),
+			$this->get_setting( 'layout' ),
 			'row',
 			'layout-item',
 			'structure-item',
@@ -71,7 +71,7 @@ class LB_Item_Row extends LB_Item {
 		
 		$row_layouts = $item_factory->get_layouts();
 		
-		$layout = $this->get_settings( 'layout');
+		$layout = $this->get_setting( 'layout' );
 		
 		if ( ! empty( $row_layouts[ $layout ] ) ){
 			

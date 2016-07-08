@@ -46,7 +46,9 @@ class TKD_Items_Factory {
 				
 				if ( class_exists( $shortcode['class'] ) ){
 					
-					$item = new $shortcode['class']( $settings , $content );
+					$item = new $shortcode['class']( $this->forms );
+					
+					$item->set_item( $settings , $content );
 					
 					if ( $get_children ){
 						
@@ -79,7 +81,7 @@ class TKD_Items_Factory {
 	
 	public function check_row_columns( $item, &$children ){  
 		
-		$layout = $item->get_settings('layout');
+		$layout = $item->get_setting('layout');
 		
 		$layouts = $this->get_layouts();
 		
