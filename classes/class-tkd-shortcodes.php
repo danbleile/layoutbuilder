@@ -64,7 +64,7 @@ class TKD_Shortcodes {
 	} // end set_shortcodes
 	
 	
-	public function get_column_shortcodes( $only_slugs = true ){
+	public function get_content_items_shortcodes( $only_slugs = true ){
 		
 		$shortcodes = $this->get_shortcodes();
 		
@@ -91,5 +91,77 @@ class TKD_Shortcodes {
 		} // end if
 		
 	} // end get_column_shortcodes
+	
+	
+	public function get_item_shortcode( $item ){
+		
+		$delim = '"';
+		
+		$content = '';
+		
+		$settings_array = array();
+		
+		$settings = $item->get_settings();
+		
+		$children = $item->get_children();
+		
+		if ( ! empty( $children ) ){
+			
+			foreach( $children as $child ){
+				
+				$content .= $this->get_item_shortcode( $child );
+				
+			} // end foreach
+			
+		} else {
+			
+			$content = $item->get_content();
+			
+		} // end if
+		
+		if ( ! empty( $settings ) ){
+			
+			foreach( $settings as $key => $value ){
+				
+				if ( is_array( $value ) ){
+					
+					$delim = '\'';
+					
+					$settings[ $key ] = json_encode( $value , JSON_HEX_APOS ); 
+					
+				} // end if
+				
+			} // end foreach
+			
+			foreach( $settings as $key => $value ){
+				
+				$settings_array[] = $key . '=' . $delim . $value . $delim;
+				
+			} // end foreach
+			
+		} // end if
+		
+		$shortcode = '[' . $item->get_slug();
+		
+		if ( ! empty( $settings_array ) ){
+			
+			$shortcode .= ' ' .  implode( ' ' , $settings_array );
+			
+		} // end if
+		
+		if ( ! $content ){
+			
+			$shortcode .= ']';
+			
+		} else {
+			
+			$shortcode .= ']' . $content . '[/' . $item->get_slug() . ']';
+			
+		}// end if
+		
+		return $shortcode;
+		
+	} // end get_item_shortcode
+	
 	
 } // end TKD_Post_Editor

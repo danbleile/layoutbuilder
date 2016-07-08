@@ -124,7 +124,7 @@ class TKD_Items_Factory {
 		
 		if ( 'column-items' == $allowed ){
 			
-			$allowed = $this->shortcodes->get_column_shortcodes();
+			$allowed = $this->shortcodes->get_content_items_shortcodes();
 			
 		} // end if
 		

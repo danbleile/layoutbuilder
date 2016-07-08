@@ -77,6 +77,26 @@ class TKD_Forms {
 	} // end get_textarea
 	
 	
+	public function get_modal( $content , $args ){
+		
+		$defaults = array(
+			'title'        => 'Edit Item',
+			'action'       => 'tkd-edited-item',
+			'button_label' => false,
+			'extra_action' => true,
+		);
+		
+		$this->check_defaults( $args , $defaults );
+		
+		ob_start();
+		
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-modal.php';
+		
+		return ob_get_clean();
+		
+	} // end get_modal
+	
+	
 	public function check_defaults ( &$args , $defaults ){
 		
 		foreach( $defaults as $key => $value ){

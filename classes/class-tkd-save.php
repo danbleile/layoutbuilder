@@ -24,27 +24,39 @@ class TKD_Save {
 	
 	public function save_content( $content ){
 		
-		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-
-			return $content;
-
-		} // end if
-		
-		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-
-			return $content;
-
-		} // end if
-		
 		if ( isset( $_POST['_tkd_builder']['layout']['items'] ) ){
+		
+			// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+	
+				return $content;
+	
+			} // end if
+			
+			// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+	
+				return $content;
+	
+			} // end if
 			
 			$items = $this->items_factory->get_items_from_save( $_POST['_tkd_builder']['layout']['items'] );
 			
-			var_dump( $items );
+			$shortcode_content = '';
 			
-		} // end if
+			foreach( $items as $item ){
+				
+				$shortcode_content .= $this->shortcodes->get_item_shortcode( $item );
+				
+			} // end foreach
+			
+			return $shortcode_content;
+			
+		} else {
+			
+			return $content;
+			
+		}// end if
 		
 	} // end save_content
 	
