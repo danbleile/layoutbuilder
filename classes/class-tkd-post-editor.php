@@ -206,7 +206,7 @@ class TKD_Post_Editor {
 			
 			$item = $this->item_factory->get_item( $content_item );
 			
-			$basic_content = $this->get_the_add_item_html( $item );
+			$basic_content .= $this->get_the_add_item_html( $item );
 			
 		}// end foreach
 		

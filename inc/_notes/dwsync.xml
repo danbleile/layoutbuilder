@@ -9,4 +9,6 @@
 <file name="tkd-modal.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131124816285360709" remote="131124816000000000" Dst="2" />
 <file name="tkd-tab-form.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131127347498097222" remote="131127347400000000" Dst="2" />
 <file name="tkd-add-item-button.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131136968682569383" remote="131136968400000000" Dst="2" />
+<file name="inc-tkd-item-row.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131137049426000433" remote="131137049400000000" Dst="2" />
+<file name="inc-tkd-item-column.php" server="ftp.contributelist.com//public_html/layoutbuilder.tektondev.com/wp-content/plugins/layoutbuilder/" local="131137049786349355" remote="131137049400000000" Dst="2" />
 </dwsync>

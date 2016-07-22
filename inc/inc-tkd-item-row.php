@@ -1,0 +1,1 @@
+<div class="<?php echo implode( ' ' , $class );?>"><?php echo do_shortcode( $content );?></div>

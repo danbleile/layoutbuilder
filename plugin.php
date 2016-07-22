@@ -44,6 +44,10 @@ class TKD_Layout_Builder {
 		require_once 'classes/class-tkd-items-factory.php';
 		$items_factory = new TKD_Items_Factory( $forms );
 		
+		require_once 'classes/class-tkd-shortcode.php';
+		$shortcode = new TKD_Shortcode( $items_factory );
+		$shortcode->init();
+		
 		require_once 'classes/class-tkd-post-editor.php';
 		$editor = new TKD_Post_Editor( $items_factory , $forms );
 		$editor->init();

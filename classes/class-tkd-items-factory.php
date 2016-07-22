@@ -28,7 +28,7 @@ class TKD_Items_Factory {
 	} // end get_layouts
 	
 	
-	public function get_item( $slug , $settings = array() , $content = '' , $get_children = true ){
+	public function get_item( $slug , $settings = array() , $content = '' , $get_children = true , $clean_item = false ){
 		
 		$item = false;
 		
@@ -44,7 +44,7 @@ class TKD_Items_Factory {
 					
 					$item = new $item_array['class']( $this->forms );
 					
-					$item->set_item( $settings , $content );
+					$item->set_item( $settings , $content , $clean_item );
 					
 					if ( $get_children ){
 						
@@ -213,7 +213,7 @@ class TKD_Items_Factory {
 					
 				} // end if
 				
-				$item = $this->get_item( $id_info[0] , $settings , $content , false );
+				$item = $this->get_item( $id_info[0] , $settings , $content , false , true );
 				
 				if ( ! empty( $_POST[ $this->forms->get_prefix() ][ $id ]['items'] ) ){
 					
@@ -339,20 +339,22 @@ class TKD_Items_Factory {
 				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-row.php',
 				'register'    => true,
 				'is_layout'   => true,
-				'description' => 'Row Layout Item',
 			),
 			'column' => array(
 				'class'       => 'TKD_Item_Column',
 				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-column.php',
 				'register'    => true,
 				'is_layout'   => true,
-				'description' => 'Column Layout Item',
 			),
 			'text' => array(
 				'class'       => 'TKD_Item_Text',
 				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-text.php',
 				'register'    => true,
-				'description' => 'Editable block of Text/HTML',
+			),
+			'subtitle' => array(
+				'class'       => 'TKD_Item_Subtitle',
+				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-subtitle.php',
+				'register'    => true,
 			),
 		
 		);

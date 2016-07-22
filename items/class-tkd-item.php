@@ -13,6 +13,8 @@ abstract class TKD_Item {
 	
 	protected $settings;
 	
+	protected $default_settings = array();
+	
 	protected $content;
 	
 	protected $index = 0;
@@ -41,6 +43,8 @@ abstract class TKD_Item {
 	
 	public function get_settings(){ return $this->settings; } // end get_settings
 	
+	public function get_default_settings(){ return $this->default_settings; } // end get_settings
+	
 	public function get_index(){ return $this->index; } // end get_settings
 	public function set_index( $index ) { $this->index = $index; }
 	
@@ -67,10 +71,11 @@ abstract class TKD_Item {
 	
 	/* ----------------------------------------------*/
 	
-	
-	public function set_item( $settings = array() , $content = '' ){
+	public function set_item( $settings = array() , $content = '' , $clean_item = false, $apply_defaults = true ){
 		
 		$this->set_id();
+		
+		$settings = $this->get_the_item_settings( $settings , $clean_item );
 		
 		$this->set_settings( $settings );
 		
@@ -274,6 +279,25 @@ abstract class TKD_Item {
 	} // end get_index_text
 	
 	
+
+/***************
+-----------------------------------------
+***************/
+
+	public function get_the_item( $is_editor = false ){
+		
+		$html = '';
+		
+		if ( method_exists( $this , 'the_item' ) ){
+			
+			$html .= $this->the_item( $this->get_settings() , $this->get_content() , $is_editor );
+			
+		} // end if
+		
+		return $html;
+		
+	} // end 
+	
 	
 	public function get_the_item_shortcode( ){
 		
@@ -344,6 +368,52 @@ abstract class TKD_Item {
 		return $shortcode;
 		
 	} // end get_item_shortcode
+	
+	
+	public function get_the_clean_settings( $settings ){
+		
+		$clean = array();
+		
+		if ( method_exists( $this , 'clean_settings' ) ){
+			
+			$clean = $this->clean_settings( $settings );
+			
+		} // end if
+		
+		return $clean;
+		
+	} // end get_the_clean_settings
+	
+	
+	public function get_the_item_settings( $settings = array() , $clean = false ){
+		
+		if ( $clean ) {
+			
+			$settings = $this->get_the_clean_settings( $settings );
+			
+		} // end if
+		
+		$s = array();
+		
+		$default_settings = $this->get_default_settings();
+		
+		foreach( $default_settings as $key => $value ){
+			
+			if ( ! isset( $settings[ $key ] ) ){
+				
+				$s[ $key ] = $value;
+				
+			} else {
+				
+				$s[ $key ] = $settings[ $key ];
+				
+			} // end if
+			
+		} // end foreach
+		
+		return $s;
+		
+	} // end get_the_item_settings
 	
 	
 	
