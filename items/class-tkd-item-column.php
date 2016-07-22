@@ -6,7 +6,7 @@ class TKD_Item_Column extends TKD_Item {
 	
 	protected $title = 'Column';
 	
-	protected $allowed_childen = 'column-items';
+	protected $allowed_childen = 'content';
 	
 	protected $default_children = 'text';
 	

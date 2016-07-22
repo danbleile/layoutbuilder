@@ -271,4 +271,76 @@ abstract class TKD_Item {
 	
 	
 	
+	public function get_the_item_shortcode( ){
+		
+		$delim = '"';
+		
+		$content = '';
+		
+		$settings_array = array();
+		
+		$settings = $this->get_settings();
+		
+		$children = $this->get_children();
+		
+		if ( ! empty( $children ) ){
+			
+			foreach( $children as $child ){
+				
+				$content .= $child->get_the_item_shortcode();
+				
+			} // end foreach
+			
+		} else {
+			
+			$content = $this->get_content();
+			
+		} // end if
+		
+		if ( ! empty( $settings ) ){
+			
+			foreach( $settings as $key => $value ){
+				
+				if ( is_array( $value ) ){
+					
+					$delim = '\'';
+					
+					$settings[ $key ] = json_encode( $value , JSON_HEX_APOS ); 
+					
+				} // end if
+				
+			} // end foreach
+			
+			foreach( $settings as $key => $value ){
+				
+				$settings_array[] = $key . '=' . $delim . $value . $delim;
+				
+			} // end foreach
+			
+		} // end if
+		
+		$shortcode = '[' . $this->get_slug();
+		
+		if ( ! empty( $settings_array ) ){
+			
+			$shortcode .= ' ' .  implode( ' ' , $settings_array );
+			
+		} // end if
+		
+		if ( ! $content ){
+			
+			$shortcode .= ']';
+			
+		} else {
+			
+			$shortcode .= ']' . $content . '[/' . $this->get_slug() . ']';
+			
+		}// end if
+		
+		return $shortcode;
+		
+	} // end get_item_shortcode
+	
+	
+	
 }

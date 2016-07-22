@@ -6,11 +6,9 @@ class TKD_Save {
 	
 	protected $shortcodes;
 	
-	public function __construct( $items_factory , $shortcodes ){
+	public function __construct( $items_factory ){
 		
 		$this->items_factory = $items_factory;
-		
-		$this->shortcodes = $shortcodes;
 		
 	} // end __construct
 	
@@ -46,11 +44,13 @@ class TKD_Save {
 			
 			foreach( $items as $item ){
 				
-				$shortcode_content .= $this->shortcodes->get_item_shortcode( $item );
+				$shortcode_content .= $item->get_the_item_shortcode();
 				
 			} // end foreach
 			
 			return $shortcode_content;
+			
+			//return $content;
 			
 		} else {
 			

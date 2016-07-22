@@ -38,14 +38,11 @@ class TKD_Layout_Builder {
 		
 		require_once 'items/class-tkd-item.php';
 		
-		require_once 'classes/class-tkd-shortcodes.php';
-		$shortcodes = new TKD_Shortcodes();
-		
 		require_once 'classes/class-tkd-forms.php';
 		$forms = new TKD_Forms();
 		
 		require_once 'classes/class-tkd-items-factory.php';
-		$items_factory = new TKD_Items_Factory( $shortcodes , $forms );
+		$items_factory = new TKD_Items_Factory( $forms );
 		
 		require_once 'classes/class-tkd-post-editor.php';
 		$editor = new TKD_Post_Editor( $items_factory , $forms );
@@ -62,7 +59,7 @@ class TKD_Layout_Builder {
 			if ( isset( $_POST[ $forms->get_prefix() ] ) ){
 			
 				require_once 'classes/class-tkd-save.php';
-				$save = new TKD_Save( $items_factory , $shortcodes );
+				$save = new TKD_Save( $items_factory );
 				$save->init();
 			
 			} // end if

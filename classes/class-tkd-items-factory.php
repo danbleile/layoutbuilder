@@ -2,8 +2,6 @@
 
 class TKD_Items_Factory {
 	
-	protected $shortcodes;
-	
 	protected $forms;
 	
 	//@var array Defined layouts
@@ -16,9 +14,7 @@ class TKD_Items_Factory {
 		'quarter'    => array( 'columns' => 4, 'label' => 'Quarters' ),
 	);
 	
-	public function __construct( $shortcodes , $forms ){
-		
-		$this->shortcodes = $shortcodes;
+	public function __construct( $forms ){
 		
 		$this->forms =  $forms;
 		
@@ -36,17 +32,17 @@ class TKD_Items_Factory {
 		
 		$item = false;
 		
-		$shortcode = $this->shortcodes->get_shortcode( $slug );
+		$item_array = $this->get_the_item_aray( $slug );
 		
-		if ( $shortcode && ! empty( $shortcode['path'] ) && ! empty( $shortcode['class'] ) ){
+		if ( $item_array && ! empty( $item_array['path'] ) && ! empty( $item_array['class'] ) ){
 			
-			if ( file_exists( $shortcode['path'] ) ){
+			if ( file_exists( $item_array['path'] ) ){
 				
-				require_once $shortcode['path'];
+				require_once $item_array['path'];
 				
-				if ( class_exists( $shortcode['class'] ) ){
+				if ( class_exists( $item_array['class'] ) ){
 					
-					$item = new $shortcode['class']( $this->forms );
+					$item = new $item_array['class']( $this->forms );
 					
 					$item->set_item( $settings , $content );
 					
@@ -130,9 +126,9 @@ class TKD_Items_Factory {
 		
 		$items = array();
 		
-		if ( 'column-items' == $allowed ){
+		if ( 'content' == $allowed ){
 			
-			$allowed = $this->shortcodes->get_content_items_shortcodes();
+			$allowed = $this->get_the_items_array( true , true );
 			
 		} // end if
 		
@@ -317,6 +313,70 @@ class TKD_Items_Factory {
 		return $regex;
 	
 	} // end get_item_regex
+	
+	public function get_the_item_aray( $slug ){
+		
+		$items = $this->get_the_items_array();
+		
+		if ( ! empty( $items[ $slug ] ) ){
+			
+			return $items[ $slug ];
+			
+		} else {
+			
+			return false;
+			
+		} // end if
+		
+	} // end if
+	
+	
+	public function get_the_items_array( $is_content = false , $slugs_only = false ){
+		
+		$items = array(
+			'row'    => array(
+				'class'     => 'TKD_Item_Row',
+				'path'      => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-row.php',
+				'register'  => true,
+				'is_layout' => true,
+			),
+			'column' => array(
+				'class'     => 'TKD_Item_Column',
+				'path'      => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-column.php',
+				'register'  => true,
+				'is_layout' => true,
+			),
+			'text' => array(
+				'class'     => 'TKD_Item_Text',
+				'path'      => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-text.php',
+				'register'  => true,
+			),
+		
+		);
+		
+		if ( $is_content ){
+			
+			foreach( $items as $slug => $info ){
+				
+				if ( ! empty( $info['is_layout'] ) ){
+					
+					unset( $items[ $slug ] );
+					
+				} // end if
+				
+			} // end foreach
+			
+		} // end if
+		
+		if ( $slugs_only ){
+			
+			$items = array_keys( $items );
+			
+		} // end if
+		
+		return $items;
+		
+	} // end set_shortcodes
 	
 	
 } // end TKD_Post_Editor

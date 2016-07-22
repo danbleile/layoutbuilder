@@ -7,7 +7,7 @@ class TKD_Shortcodes {
 	
 	public function __construct(){
 		
-		$this->set_shortcodes();
+		//$this->set_shortcodes();
 		
 	} // end __construct
 	
@@ -36,7 +36,7 @@ class TKD_Shortcodes {
 	} // end get_shortcodes
 	
 	
-	public function set_shortcodes(){
+	/*public function set_shortcodes(){
 		
 		$sc = array(
 			'row'    => array(
@@ -61,10 +61,10 @@ class TKD_Shortcodes {
 		
 		$this->shortcodes = $sc;
 		
-	} // end set_shortcodes
+	} // end set_shortcodes*/
 	
 	
-	public function get_content_items_shortcodes( $only_slugs = true ){
+	/*public function get_content_items_shortcodes( $only_slugs = true ){
 		
 		$shortcodes = $this->get_shortcodes();
 		
@@ -90,10 +90,10 @@ class TKD_Shortcodes {
 			
 		} // end if
 		
-	} // end get_column_shortcodes
+	} // end get_column_shortcodes*/
 	
 	
-	public function get_item_shortcode( $item ){
+	/*public function get_item_shortcode( $item ){
 		
 		$delim = '"';
 		
@@ -161,7 +161,7 @@ class TKD_Shortcodes {
 		
 		return $shortcode;
 		
-	} // end get_item_shortcode
+	} // end get_item_shortcode*/
 	
 	
 } // end TKD_Post_Editor
