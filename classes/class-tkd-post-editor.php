@@ -88,6 +88,8 @@ class TKD_Post_Editor {
 		
 		$forms_html .= $this->get_empty_text_forms();
 		
+		$forms_html .= $this->get_add_item_form();
+		
 		ob_start();
 		
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-settings-editor.php';
@@ -196,8 +198,36 @@ class TKD_Post_Editor {
 	
 	public function get_add_item_form(){
 		
+		$items_array = $this->item_factory->get_the_items_array( true , true );
+		
+		$basic_content = '';
+		
+		foreach( $items_array as $content_item ){
+			
+			$item = $this->item_factory->get_item( $content_item );
+			
+			$basic_content = $this->get_the_add_item_html( $item );
+			
+		}// end foreach
+		
+		$items_set = array( 'Basic Items' => '<ul class="tkd-add-items-set">' . $basic_content . '</ul>' );
+		
+		$form = $this->forms->get_tab_form( 'tkd-form-add-item-form' , array_keys( $items_set ) , array_values( $items_set ) , $args = array() );
+		
+		return $this->forms->get_modal( $form , $args = array( 'size' => 'large' , 'action' => '' , 'button_label' => 'Cancel', ) );
 		
 	} // end function get_add_item_form
+	
+	
+	public function get_the_add_item_html( $item ){
+		
+		ob_start();
+		
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-add-item-button.php';
+		
+		return ob_get_clean();
+		
+	} // end get_the_add_item_html
 	
 	
 	/**

@@ -6,6 +6,8 @@ class TKD_Item_Text extends TKD_Item {
 	
 	protected $title = 'Text/HTML';
 	
+	protected $desc = 'Insert a custom block of text/html.';
+	
 	protected $modal_size = 'large';
 	
 	protected function get_editor_default_content(){

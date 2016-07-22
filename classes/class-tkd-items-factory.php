@@ -335,21 +335,24 @@ class TKD_Items_Factory {
 		
 		$items = array(
 			'row'    => array(
-				'class'     => 'TKD_Item_Row',
-				'path'      => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-row.php',
-				'register'  => true,
-				'is_layout' => true,
+				'class'       => 'TKD_Item_Row',
+				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-row.php',
+				'register'    => true,
+				'is_layout'   => true,
+				'description' => 'Row Layout Item',
 			),
 			'column' => array(
-				'class'     => 'TKD_Item_Column',
-				'path'      => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-column.php',
-				'register'  => true,
-				'is_layout' => true,
+				'class'       => 'TKD_Item_Column',
+				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-column.php',
+				'register'    => true,
+				'is_layout'   => true,
+				'description' => 'Column Layout Item',
 			),
 			'text' => array(
-				'class'     => 'TKD_Item_Text',
-				'path'      => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-text.php',
-				'register'  => true,
+				'class'       => 'TKD_Item_Text',
+				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-text.php',
+				'register'    => true,
+				'description' => 'Editable block of Text/HTML',
 			),
 		
 		);

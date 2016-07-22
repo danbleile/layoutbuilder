@@ -263,6 +263,68 @@
 #tkd-add-row .tkd-add-layout-item-quarter .tkd-split-3 { left: 75%; }
 
 
+#tkd-form-add-item-form .tkd-add-items-set {
+	display: block;
+	margin: 0 1% 1%;
+	padding: 0;
+}
+
+#tkd-form-add-item-form .tkd-add-items-set:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+
+#tkd-form-add-item-form .tkd-add-item-select {
+	display: block;
+	float: left;
+	width: 31.33%;
+	margin: 0 1% 1%;
+	background-color: #0085ba;;
+	padding: 8px 16px 8px 8px;
+	border-radius: 6px;
+	border: 1px solid #006799;
+	color: #fff;
+	min-height: 50px;
+	cursor: pointer;
+}
+
+#tkd-form-add-item-form .tkd-add-item-select > ul {
+	margin-left: 58px;
+}
+
+#tkd-form-add-item-form .tkd-add-item-select > ul > li {
+	padding: 0;
+	margin: 0;
+}
+
+#tkd-form-add-item-form .tkd-add-item-icon {
+	height: 50px;
+	width: 50px;
+	float: left;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-radius: 4px;
+}
+
+#tkd-form-add-item-form .tkd-add-item-select .tkd-title {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#tkd-form-add-item-form .tkd-add-item-select .tkd-desc {
+	font-size: 11px;
+	line-height: 14px;
+}
+
+#tkd-form-add-item-form .tkd-add-item-icon.text-item-icon {
+	background-image: url(../images/item-icons/text.png)
+}
+
+
 /* -------------------------------------------------------------------------------------- */
 
 #tkd-modal-bg {

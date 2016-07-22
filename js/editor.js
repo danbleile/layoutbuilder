@@ -57,6 +57,18 @@ var TKD_Editor = {
 				
 			});
 			
+			container.on('click' , '.tkd-add-item-action' , function( e ) {
+				
+				jQuery('.tkd-add-item-action').removeClass('tkd-active-insert');
+				
+				jQuery( this ).addClass('tkd-active-insert');
+				
+				e.preventDefault();
+				
+				TKD_Editor.forms.show_item_form( 'add-item-form' );
+				
+			});
+			
 		}, // end bind events
 		
 		
@@ -162,6 +174,7 @@ var TKD_Editor = {
 			if ( ! container ) container = TKD_Editor.layout.wrap;
 			
 			container.find('.items-set.tkd-layout-items').sortable({
+				distance: 15,
 				stop: function( event , ui ){
 					TKD_Editor.layout.s_content( false );
 					TKD_Editor.layout.set_layout();
@@ -170,6 +183,7 @@ var TKD_Editor = {
 			
 			container.find('.tkd-column > .items-set').sortable({
 				connectWith: '.tkd-column > .items-set',
+				distance: 15,
 				stop: function( event , ui ){
 					TKD_Editor.layout.s_content( false );
 					TKD_Editor.layout.set_layout();
@@ -223,7 +237,31 @@ var TKD_Editor = {
 			
 		}, // end insert_content
 		
+		insert_item: function( response ){
+			
+			var column = TKD_Editor.layout.wrap.find('.tkd-active-insert').closest('.tkd-builder-item').children('.items-set');
+			
+			column.append( response.editor );
+			
+			TKD_Editor.forms.insert_forms( response.forms );
+			
+			var itm = jQuery('#' + response.id );
+			
+			TKD_Editor.layout.s_content( itm );
+				
+			TKD_Editor.layout.set_layout();
+			
+			TKD_Editor.forms.show_item_form( response.id ); 
+			
+		} // end insert_item
+		
 	}, // end layout
+	
+	
+/***
+-----------------------------------------------------------------
+
+***/
 	
 	ajax: {
 		
@@ -293,6 +331,10 @@ var TKD_Editor = {
 		
 	}, // end ajax
 	
+/***
+-----------------------------------------------------------------
+***/
+	
 	forms : {
 		
 		wrap: false,
@@ -312,6 +354,14 @@ var TKD_Editor = {
 					e.preventDefault();
 					
 					TKD_Editor.forms.update_item( jQuery( this ) );
+					
+			});
+			
+			TKD_Editor.forms.wrap.on('click' , '.tkd-add-item-select' , function( e ){
+					
+					e.preventDefault();
+					
+					TKD_Editor.forms.add_item( jQuery( this ) );
 					
 			});
 			
@@ -431,6 +481,16 @@ var TKD_Editor = {
 			TKD_Editor.ajax.query( data , 'tk_editor_get_content' , 'layout' , 'insert_content' );
 			
 		}, // end update_item
+		
+		add_item: function( ic ){
+			
+			var data = TKD_Editor.forms.get_serialized( ic );
+			
+			TKD_Editor.ajax.query( data , 'tk_editor_get_part' , 'layout' , 'insert_item' );
+			
+			TKD_Editor.modal.hide();
+			
+		}, // end add item
 		
 		
 	}, // end forms

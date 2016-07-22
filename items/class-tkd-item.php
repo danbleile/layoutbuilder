@@ -9,6 +9,8 @@ abstract class TKD_Item {
 	
 	protected $title;
 	
+	protected $desc = '';
+	
 	protected $settings;
 	
 	protected $content;
@@ -32,6 +34,8 @@ abstract class TKD_Item {
 	public function get_slug(){ return $this->slug; } // end get_slug
 	
 	public function get_title(){ return $this->title; } // end get_slug
+	
+	public function get_desc(){ return $this->desc; } // end get_slug
 	
 	public function get_content(){ return $this->content; } // end get_content
 	
