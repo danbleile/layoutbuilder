@@ -125,6 +125,21 @@ abstract class TKD_Item {
 	} // end get_settings
 	
 	
+	public function get_item_html(){
+		
+		$html = '';
+		
+		if ( method_exists( $this , 'the_item' ) ){
+			
+			$html .= $this->the_item( $this->get_settings() , $this->get_content() );
+			
+		} // end if
+		
+		return $html;
+		
+	} // end get_item_html
+	
+	
 	public function get_editor_html( $inner_content ){
 		
 		if ( method_exists( $this , 'the_editor' ) ){
@@ -174,13 +189,19 @@ abstract class TKD_Item {
 				
 			} // end if
 			
-			$html .= $this->forms->get_tab_form( 'tkd-form-' . $this->get_id() , array_keys( $form ) , array_values( $form ) );
+			$hidden_fields = array(
+				'tkd_item_id'   => $this->get_id(),
+				'tkd_item_slug' => $this->get_slug(),
+			);
+			
+			$html .= $this->forms->get_tab_form( 'tkd-form-' . $this->get_id() , array_keys( $form ) , array_values( $form ) , array( 'hidden_fields' => $hidden_fields ) );
+
 			
 		} // end if
 		
 		if ( $as_modal ){
 			
-			$html = $this->forms->get_modal( $html , $args = array( 'size' => $this->get_modal_size() ) );
+			$html = $this->forms->get_modal( $html , $args = array( 'size' => $this->get_modal_size() , 'action' => 'tkd-edited-update-item-action' ) );
 			
 		} // end if
 		

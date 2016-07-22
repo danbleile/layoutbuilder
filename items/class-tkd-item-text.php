@@ -15,6 +15,15 @@ class TKD_Item_Text extends TKD_Item {
 	} // end get_editor_default_content
 	
 	
+	protected function the_item( $settings , $content ){
+		
+		$html = apply_filters( 'tkd_the_content' , $content );
+		
+		return $html;
+		
+	} // end the_item
+	
+	
 	protected function the_form( $settings , $content ){
 		
 		$input = $this->forms->get_content_prefix() . $this->get_id();

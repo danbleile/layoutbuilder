@@ -1,4 +1,4 @@
-<div class="tkd-modal">
+<div class="tkd-modal <?php echo $args['class'];?>">
 	<div class="tkd-modal-frame tkd-modal-<?php echo $args['size'];?>">
     	<header><?php echo $args['title'];?><a class="tkd-close-modal-action" href="#"></a></header>
         <div class="tkd-modal-content"> 

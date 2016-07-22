@@ -65,6 +65,14 @@ class TKD_Post_Editor {
 		
 		ob_start();
 		
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'css/editor-item.css';
+		
+		$css = ob_get_clean();
+		
+		$css .= file_get_contents( 'http://layoutbuilder.tektondev.com/?tkd-get-editor-css=true' );
+		
+		ob_start();
+		
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-layout-editor.php';
 		
 		return ob_get_clean();
@@ -77,6 +85,8 @@ class TKD_Post_Editor {
 		$fomrs = '';
 		
 		$forms_html = $this->get_items_forms( $items , false );
+		
+		$forms_html .= $this->get_empty_text_forms();
 		
 		ob_start();
 		
@@ -164,6 +174,24 @@ class TKD_Post_Editor {
 		}// end if
 		
 	} // end get_forms_array
+	
+	public function get_empty_text_forms(){
+		
+		$forms = '';
+		
+		for( $i = 0; $i < 10 ; $i++ ){
+			
+			$item = $this->item_factory->get_item( 'text' );
+			
+			$item_form = $item->get_form_html( false );
+			
+			$forms .= $this->forms->get_modal( $item_form , $args = array( 'size' => $item->get_modal_size() , 'class' => 'empty-editor' , 'action' => 'tkd-edited-update-item-action' ) );
+			
+		} // end for
+		
+		return $forms;
+		
+	} //end get_empty_wp_editors
 	
 	
 	/**
