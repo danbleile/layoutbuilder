@@ -64,6 +64,12 @@ class TKD_Items_Factory {
 							
 						} // end if
 						
+						foreach( $children as $index => $child ){
+							
+							$children[ $index ]->set_index( $index );
+							
+						} // end foreach
+						
 						$item->set_children( $children );
 						
 					} // end if

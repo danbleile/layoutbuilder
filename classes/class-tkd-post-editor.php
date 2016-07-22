@@ -194,6 +194,12 @@ class TKD_Post_Editor {
 	} //end get_empty_wp_editors
 	
 	
+	public function get_add_item_form(){
+		
+		
+	} // end function get_add_item_form
+	
+	
 	/**
 	  * Add admin scripts
 	  */
