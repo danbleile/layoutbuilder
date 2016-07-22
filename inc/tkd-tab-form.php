@@ -5,4 +5,7 @@
     <div class="tkd-form-sections">
     	<?php foreach( $sections as $section):?><div class="tkd-form-section"><?php echo $section;?></div><?php endforeach;?>
     </div>
+    <footer>
+    	<?php echo $hidden_fields;?>
+    </footer>
 </fieldset>

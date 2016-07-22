@@ -47,17 +47,17 @@ class TKD_Layout_Builder {
 		require_once 'classes/class-tkd-items-factory.php';
 		$items_factory = new TKD_Items_Factory( $shortcodes , $forms );
 		
+		require_once 'classes/class-tkd-post-editor.php';
+		$editor = new TKD_Post_Editor( $items_factory , $forms );
+		$editor->init();
+		
+		require_once 'classes/class-tkd-ajax.php';
+		$ajax = new TKD_Ajax( $items_factory , $editor );
+		$ajax->init();
+		
 		add_action( 'init' , array( $this , 'add_tkd_the_content' ), 1 );
 		
 		if ( is_admin() ){
-			
-			require_once 'classes/class-tkd-post-editor.php';
-			$editor = new TKD_Post_Editor( $items_factory , $forms );
-			$editor->init();
-			
-			require_once 'classes/class-tkd-ajax.php';
-			$ajax = new TKD_Ajax( $items_factory , $editor );
-			$ajax->init();
 			
 			if ( isset( $_POST[ $forms->get_prefix() ] ) ){
 			

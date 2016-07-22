@@ -128,14 +128,15 @@
 
 #tkd-layout-editor .tkd-builder-content-item > .items-content {
 	position: relative;
+	margin: 0 1rem 1rem;
 }
 
 #tkd-layout-editor .tkd-builder-content-item > .items-content .tkd-edit-item-action {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 0;
-	right: 0;
+	left: -1rem;
+	right: -1rem;
 }
 
 #tkd-layout-editor .tkd-builder-content-item > .items-content .tkd-edit-item-action:hover {

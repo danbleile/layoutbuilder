@@ -65,6 +65,14 @@ class TKD_Post_Editor {
 		
 		ob_start();
 		
+		include plugin_dir_path( dirname( __FILE__ ) ) . 'css/editor-item.css';
+		
+		$css = ob_get_clean();
+		
+		$css .= file_get_contents( 'http://layoutbuilder.tektondev.com/?tkd-get-editor-css=true' );
+		
+		ob_start();
+		
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-layout-editor.php';
 		
 		return ob_get_clean();
@@ -177,7 +185,7 @@ class TKD_Post_Editor {
 			
 			$item_form = $item->get_form_html( false );
 			
-			$forms .= $this->forms->get_modal( $item_form , $args = array( 'size' => $item->get_modal_size() , 'class' => 'empty-editor' ) );
+			$forms .= $this->forms->get_modal( $item_form , $args = array( 'size' => $item->get_modal_size() , 'class' => 'empty-editor' , 'action' => 'tkd-edited-update-item-action' ) );
 			
 		} // end for
 		

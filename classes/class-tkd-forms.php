@@ -59,6 +59,21 @@ class TKD_Forms {
 	} // end get_hidden_field
 	
 	
+	public function get_hidden_fields( $fields ){
+		
+		$html = '';
+		
+		foreach( $fields as $key => $value ){
+			
+			$html .= '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
+			
+		} // end field
+		
+		return $html;
+		
+	} // end get_hidden_field
+	
+	
 	public function get_textarea( $name , $value , $args = array() ){
 		
 		$defaults = array(
@@ -101,6 +116,14 @@ class TKD_Forms {
 	
 	
 	public function get_tab_form( $id , $nav , $sections , $args = array() ){
+		
+		$defaults = array(
+			'hidden_fields' => array(),
+		);
+		
+		$this->check_defaults( $args , $defaults );
+		
+		$hidden_fields = $this->get_hidden_fields( $args['hidden_fields'] );
 		
 		ob_start();
 		

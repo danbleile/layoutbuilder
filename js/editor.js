@@ -74,6 +74,8 @@ var TKD_Editor = {
 			
 			if ( ! container ) container = TKD_Editor.layout.wrap;
 			
+			var css = jQuery('#tkd_editor_css').val();
+			
 			container.find('textarea.tkd-the-content').each( function(){
 				
 				var c = jQuery( this );
@@ -82,7 +84,9 @@ var TKD_Editor = {
 				
 				var frm = itm.find('iframe.tkd-the-content-frame');
 				
-				frm.contents().find('body').html('<main id="tkd-frame-wrap">' + c.val() + '</main>');
+				frm.contents().find('head').append('<style>' + css + '</style>');
+				
+				frm.contents().find('body').html('<main class="site" id="tkd-frame-wrap">' + c.val() + '</main>');
 				
 			}); // end each
 			
@@ -203,6 +207,22 @@ var TKD_Editor = {
 			
 		}, // end remove item
 		
+		insert_content: function( response ){
+			
+			if ( response.id ){
+				
+				var itm = jQuery('#' + response.id );
+				
+				itm.find('.tkd-the-content').html( response.html );
+				
+				TKD_Editor.layout.s_content( itm );
+				
+				TKD_Editor.layout.set_layout();
+				
+			} // end if
+			
+		}, // end insert_content
+		
 	}, // end layout
 	
 	ajax: {
@@ -240,7 +260,7 @@ var TKD_Editor = {
 			
 			var data = TKD_Editor.ajax.serial( itm );
 			
-			TKD_Editor.ajax.query( data , 'tk_editor_get_part' , 'insert_row' );
+			TKD_Editor.ajax.query( data , 'tk_editor_get_part' , 'layout' , 'insert_row' );
 			
 		}, // end add row
 		
@@ -252,7 +272,7 @@ var TKD_Editor = {
 			
 		}, // end serial
 		
-		query: function( data , action , callback ){
+		query: function( data , action , callback_obj , callback ){
 			
 			data = data + '&action=' + action;
 			
@@ -263,7 +283,7 @@ var TKD_Editor = {
 					
 					console.log( response );
 					
-					TKD_Editor.layout[ callback ]( response );
+					TKD_Editor[callback_obj][ callback ]( response );
 					
 				},
 				'json'
@@ -287,6 +307,14 @@ var TKD_Editor = {
 		
 		bind_events: function(){
 			
+			TKD_Editor.forms.wrap.on('click' , '.tkd-edited-update-item-action' , function( e ){
+					
+					e.preventDefault();
+					
+					TKD_Editor.forms.update_item( jQuery( this ) );
+					
+			});
+			
 		}, // end bind_events
 		
 		insert_forms: function( forms ){
@@ -304,25 +332,19 @@ var TKD_Editor = {
 					
 					ne.find('.tkd-form').attr( 'id' , 'tkd-form-' + key );
 					
+					ne.find('input[name="tkd_item_id"]' ).val( key );
+					
 					ne.removeClass( 'empty-editor' );
 					
-					ne.find('textarea').attr('name' , '_tkd_content_' + key );
+					var txtarea = ne.find('textarea');
+					
+					txtarea.attr('name' , '_tkd_content_' + key );
 					
 				} else {
 					
 					TKD_Editor.forms.wrap.find('.tkd-forms-set').append( form.html );
 					
 				} // end if
-				
-				console.log( form );
-				
-				/*for( var f_key in form ){
-					
-    				if ( ! form.hasOwnProperty( f_key ) ) continue;
-					
-					console.log( form
-					
-				} // end for*/
 				
 			} // end for
 			
@@ -343,6 +365,72 @@ var TKD_Editor = {
 			return form;
 			
 		}, //get_form_by_item_id
+		
+		get_form_by_child: function( child ){
+			
+			var form = child.closest('.tkd-form');
+			
+			return form;
+			
+		}, // end get_form_by_child
+		
+		get_form_by_modal: function( child ){
+			
+			var modal = child.closest('.tkd-modal');
+			
+			var form = modal.find('.tkd-form');
+			
+			return form;
+			
+		}, // end get_form_by_modal
+		
+		get_serialized: function( form ){
+			
+			var data = form.find('input,select,textarea:not(".wp-editor-area"),hidden').serialize();
+			
+			var editors = form.find( '.wp-editor-wrap' );
+			
+			if ( editors.length > 0 ){
+				
+				editors.each( function(){
+					
+					var s = jQuery( this );
+					
+					var txt = s.find('textarea');
+					
+					var id = txt.attr('id');
+					
+					if ( s.hasClass( 'tmce-active' ) ){
+					
+						var content = tinyMCE.get( id ).getContent();
+					
+					} else {
+						
+						var content = txt.val();
+						
+					} // end if 
+					
+					data += '&' + txt.attr('name') + '=' + encodeURIComponent( content ); 
+					
+				});
+				
+			} // end if
+			
+			console.log( data );
+			
+			return data;
+			
+		}, // end get_serialized
+		
+		update_item: function( ic ){
+			
+			var form = TKD_Editor.forms.get_form_by_modal( ic );
+			
+			var data = TKD_Editor.forms.get_serialized( form );
+			
+			TKD_Editor.ajax.query( data , 'tk_editor_get_content' , 'layout' , 'insert_content' );
+			
+		}, // end update_item
 		
 		
 	}, // end forms

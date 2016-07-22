@@ -10,4 +10,5 @@
         <?php echo $layouts_html;?>
     	</ul>	
     </footer>
+    <textarea id="tkd_editor_css"><?php echo $css;?></textarea>
 </div>
