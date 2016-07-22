@@ -13,7 +13,11 @@ class TKD_Item_Column extends TKD_Item {
 	
 	protected function the_editor( $settings , $content ){
 		
-		$class = array( 'tkd-builder-item' , 'tkd-' . $this->get_slug() );
+		$class = array( 
+			'tkd-builder-item', 
+			'tkd-' . $this->get_slug() ,
+			'column-' . $this->get_index_text( $this->get_index() ),
+			);
 		
 		$id = $this->get_id();
 		

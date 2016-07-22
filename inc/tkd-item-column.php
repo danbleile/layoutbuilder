@@ -4,5 +4,5 @@
     	<?php echo $content;?>
     </div>
     <?php echo $this->forms->get_hidden_field( $input_name . '[items]' , $child_ids , array( 'class' => 'tkd-child-items-input' ) );?>
-    <footer></footer>
+    <footer><a href="#" class="add-item-action tkd-button tkd-small">Add Item</a></footer>
 </div>

@@ -13,6 +13,8 @@ abstract class TKD_Item {
 	
 	protected $content;
 	
+	protected $index = 0;
+	
 	protected $is_editor;
 	
 	protected $allowed_childen = array();
@@ -34,6 +36,9 @@ abstract class TKD_Item {
 	public function get_content(){ return $this->content; } // end get_content
 	
 	public function get_settings(){ return $this->settings; } // end get_settings
+	
+	public function get_index(){ return $this->index; } // end get_settings
+	public function set_index( $index ) { $this->index = $index; }
 	
 	public function get_allowed_children(){ return $this->allowed_childen; }
 	
@@ -248,6 +253,21 @@ abstract class TKD_Item {
 		return $child_ids;
 		
 	} // end get_child_ids
+	
+	
+	public function get_index_text( $index , $offset = true ){
+		
+		$values = array('zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve');
+		
+		if ( $offset ) {
+			
+			$index++;
+			
+		} // end if
+		
+		return $values[ $index ];
+		
+	} // end get_index_text
 	
 	
 	
