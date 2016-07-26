@@ -15,11 +15,13 @@ class TKD_Item_Row extends TKD_Item {
 	);
 	
 	
+	
+	
 	protected function the_item( $settings , $content ){
 		
 		if ( empty( $settings['layout'] ) ) $settings['layout'] = 'single';
 		
-		$class = array( 'tkd-row' , 'tkd-layout-' . $settings['layout'] );
+		$class = array( 'row' , 'layout-' . $settings['layout'] );
 		
 		ob_start();
 		

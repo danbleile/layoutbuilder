@@ -321,9 +321,49 @@
 }
 
 #tkd-form-add-item-form .tkd-add-item-icon.text-item-icon {
+	background-image: url(../images/item-icons/text-2.png)
+}
+
+#tkd-form-add-item-form .tkd-add-item-icon.subtitle-item-icon {
 	background-image: url(../images/item-icons/text.png)
 }
 
+/* -------------------------------------------------------------------------------------- */
+.tkd-field {
+	padding: 6px 0;
+}
+
+.tkd-field label{
+	display: block;
+}
+
+.tkd-field.inline-label label{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 8px;
+}
+
+.tkd-field input[type="text"] {
+	width: 100%;
+	border: 1px solid #4ebce8;
+	border-radius: 4px;
+	height: 40px;
+	line-height: 40px;
+	text-indent: 6px;
+	color: #555;
+	padding: 0;
+	margin: 0;
+}
+
+.tkd-field select {
+	max-width: 100%;
+	border: 1px solid #4ebce8;
+	border-radius: 4px;
+	height: 40px;
+	line-height: 40px;
+	text-indent: 6px;
+	color: #555;
+}
 
 /* -------------------------------------------------------------------------------------- */
 
@@ -417,7 +457,7 @@
 
 
 .tkd-modal .tkd-form-sections {
-	padding: 1rem 0.5rem;
+	padding: 16px;
 	box-sizing:border-box;
 }
 

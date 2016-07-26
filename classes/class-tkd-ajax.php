@@ -71,7 +71,7 @@ class TKD_Ajax {
 		
 		$slug = sanitize_text_field( $_POST['tkd_item_slug'] ); 
 		
-		$settings = ( ! empty( $_POST['_tkd_builder']['id']['settings'] ) ) ? $_POST['_tkd_builder']['id']['settings'] : array();
+		$settings = ( ! empty( $_POST['_tkd_builder'][$id]['settings'] ) ) ? $_POST['_tkd_builder'][$id]['settings'] : array();
 		
 		$content = ( ! empty( $_POST['_tkd_content_' . $id ] ) ) ? $_POST['_tkd_content_' . $id ] : '';
 		
@@ -85,7 +85,7 @@ class TKD_Ajax {
 			
 			$json['slug'] = $slug;
 			
-			$json['html'] = $item->get_item_html();
+			$json['html'] = $item->get_the_item( true );
 			
 		} else {
 			

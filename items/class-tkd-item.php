@@ -58,6 +58,8 @@ abstract class TKD_Item {
 	
 	public function get_editor_content(){ return $this->get_content(); }
 	
+	public function get_is_layout() { return $this->is_layout;}
+	
 	/* ----------------------------------------------*/
 	
 	public function __construct( $forms , $is_editor = false  ){
@@ -162,7 +164,9 @@ abstract class TKD_Item {
 			
 		} else {
 			
-			$content = apply_filters( 'tkd_the_content' , $this->get_content() );
+			//$content = apply_filters( 'tkd_the_content' , $this->get_content() );
+			
+			$content = $this->the_item( $this->get_settings() , $this->get_content() , true );
 			
 			if ( ! $content  && method_exists( $this , 'get_editor_default_content' ) ){
 				
@@ -285,6 +289,8 @@ abstract class TKD_Item {
 ***************/
 
 	public function get_the_item( $is_editor = false ){
+		
+		//var_dump( $this->get_settings() );
 		
 		$html = '';
 		

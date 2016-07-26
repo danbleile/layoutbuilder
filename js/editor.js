@@ -134,7 +134,7 @@ var TKD_Editor = {
 				
 				var h = c.contents().find('#tkd-frame-wrap').outerHeight();
 				
-				c.height( h + 30 );
+				c.height( h + 15 );
 				
 			});
 			

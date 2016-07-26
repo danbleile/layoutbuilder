@@ -13,7 +13,7 @@ class TKD_Item_Column extends TKD_Item {
 	protected function the_item( $settings , $content ){
 
 		
-		$class = array( 'tkd-column' , 'tkd-column-' . $this->get_index_text( $this->get_index() ) );
+		$class = array( 'column' , 'column-' . $this->get_index_text( $this->get_index() ) );
 		
 		ob_start();
 		

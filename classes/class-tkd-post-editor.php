@@ -63,15 +63,15 @@ class TKD_Post_Editor {
 			
 		} // end foreach
 		
-		ob_start();
+		//ob_start();
 		
-		include plugin_dir_path( dirname( __FILE__ ) ) . 'css/editor-item.css';
+		//include plugin_dir_path( dirname( __FILE__ ) ) . 'css/editor-item.css';
 		
-		$css = ob_get_clean();
+		//$css = ob_get_clean();
 		
-		$css .= file_get_contents( 'http://layoutbuilder.tektondev.com/?tkd-get-editor-css=true' );
+		//$css .= file_get_contents( 'http://layoutbuilder.tektondev.com/?tkd-get-editor-css=true' );
 		
-		ob_start();
+		//ob_start();
 		
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'inc/tkd-layout-editor.php';
 		

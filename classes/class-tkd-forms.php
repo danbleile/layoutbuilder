@@ -7,17 +7,9 @@ class TKD_Forms {
 	protected $content_prefix = '_tkd_content_';
 	
 	
-	public function get_prefix(){
-		
-		return $this->prefix;
-		
-	}
+	public function get_prefix(){ return $this->prefix; }
 	
-	public function get_content_prefix(){
-		
-		return $this->content_prefix;
-		
-	}
+	public function get_content_prefix(){ return $this->content_prefix; }
 	
 	
 	public function get_text_field( $name , $value = '' , $args = array() ){
@@ -27,6 +19,7 @@ class TKD_Forms {
 			'id'         => '',
 			'label'      => false,
 			'wrap_field' => true,
+			'placeholder' => '',
 		);
 		
 		$this->check_defaults( $args , $defaults );
@@ -38,9 +31,42 @@ class TKD_Forms {
 			'value="' . $value . '"',
 			'class="tkd-field-input ' . $args['class'] . '"',
 			'id="' . $args['class'] . '"',
+			'placeholder="' . $args['placeholder'] . '"',
 		);
 		
-		return '<' . implode( ' ' , $attrs ) . ' />';
+		$html = '<' . implode( ' ' , $attrs ) . ' />';
+		
+		$field = $this->get_field_wrap( $html , $args );
+		
+		return $field;
+		
+	} // end get_text_field
+	
+	
+	public function get_select_field( $name , $options , $current_value = '' , $args = array() ){
+		
+		$defaults = array(
+			'class'      => '',
+			'id'         => '',
+			'label'      => false,
+			'wrap_field' => true,
+		);
+		
+		$this->check_defaults( $args , $defaults );
+		
+		$select = '<select name="' . $name . '" >';
+		
+		foreach( $options as $option => $value ){
+			
+			$select .= '<option value="' . $value . ' " ' . selected( $value , $current_value , false ) . '>' . $option . '</option>'; 
+			
+		} // end foreach
+		
+		$select .= '</select>';
+		
+		$field = $this->get_field_wrap( $select , $args );
+		
+		return $field;
 		
 	} // end get_text_field
 	
@@ -147,5 +173,39 @@ class TKD_Forms {
 		} // end foreach
 		
 	} // end check_defaults
+	
+	
+	public function get_field_wrap( $field , $args ){
+		
+		if ( ! isset( $args['field_wrap'] ) || ! empty( $args['field_wrap'] ) ){
+		
+			$defaults = array(
+				'label'        => false,
+				'class'        => '',
+			);
+			
+			$this->check_defaults( $args , $defaults );
+			
+			$class = array( 'tkd-field' );
+			
+			if ( $args['class'] ) $class[] = $args['class'];
+			
+			$html = '<div class="' . implode( ' ' , $class ) . '">';
+			
+			if ( $args['label'] ) {
+				
+				$html .= '<label>' . $args['label'] . '</label>';
+				
+			} // end if
+			
+			$html .= $field . '</div>';
+			
+			$field = $html;
+		
+		} // end if
+		
+		return $field;
+		
+	} // end 
 	
 }
