@@ -10,7 +10,7 @@ Version: 0.0.1
 
 class TKD_Layout_Builder {
 	
-	public static $version = '0.0.1';
+	public static $version = '0.0.2';
 	
 	public static $instance;
 	

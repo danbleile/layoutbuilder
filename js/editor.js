@@ -98,6 +98,8 @@ var TKD_Editor = {
 				
 				frm.contents().find('head').append('<style>' + css + '</style>');
 				
+				frm.contents().find('head').append('<link type="text/css" rel="stylesheet" href="/wp-includes/js/tinymce/skins/wordpress/wp-content.css">');
+				
 				frm.contents().find('body').html('<main class="site" id="tkd-frame-wrap">' + c.val() + '</main>');
 				
 			}); // end each
