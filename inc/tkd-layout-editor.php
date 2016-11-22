@@ -1,5 +1,10 @@
 <div id="tkd-layout-editor">
-	<header></header>
+	<header>
+    	<nav>
+        	<!--<input type="radio" name="_tkd_layout_editor" value="1" />
+            <input type="radio" name="_tkd_layout_editor" value="0" />-->
+        </nav>
+    </header>
     <div class="items-set tkd-layout-items">
 	<?php echo $items_html;?>
     </div>
@@ -10,5 +15,8 @@
         <?php echo $layouts_html;?>
     	</ul>	
     </footer>
-    <textarea id="tkd_editor_css"><?php echo $css;?></textarea>
+    <textarea style="display: none;" id="tkd_editor_css"><?php echo $css;?></textarea>
 </div>
+<style>
+	#wp-content-wrap { display: none;}
+</style>

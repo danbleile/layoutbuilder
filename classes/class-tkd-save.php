@@ -40,11 +40,23 @@ class TKD_Save {
 			
 			$items = $this->items_factory->get_items_from_save( $_POST['_tkd_builder']['layout']['items'] );
 			
-			$shortcode_content = '';
+			var_dump( $_POST );
+			
+			//var_dump( $items );
+			
+			//var_dump( $items );
+			
+			if ( empty( $items ) ) $items = array();
+			
+			$shortcode_content = '';  
 			
 			foreach( $items as $item ){
 				
-				$shortcode_content .= $item->get_the_item_shortcode();
+				if ( is_object (  $item ) ){
+				
+					$shortcode_content .= $item->get_the_item_shortcode();
+				
+				} // end if
 				
 			} // end foreach
 			

@@ -3,6 +3,8 @@ abstract class TKD_Item {
 	
 	protected $forms;
 	
+	protected $form_fields;
+	
 	protected $id;
 	
 	protected $slug;
@@ -28,6 +30,8 @@ abstract class TKD_Item {
 	protected $children = array();
 	
 	protected $modal_size = 'medium';
+	
+	protected $is_dynamic_editor = false;
 	
 	/* ----------------------------------------------*/
 	
@@ -60,9 +64,13 @@ abstract class TKD_Item {
 	
 	public function get_is_layout() { return $this->is_layout;}
 	
+	public function get_is_dynamic_editor(){ return $this->is_dynamic_editor; } 
+	
 	/* ----------------------------------------------*/
 	
 	public function __construct( $forms , $is_editor = false  ){
+		
+		$this->form_fields = new TKD_Form_Fields();
 		
 		$this->forms = $forms;
 		
@@ -207,6 +215,36 @@ abstract class TKD_Item {
 				
 			} // end if
 			
+			$css_form = '';
+			
+			if ( array_key_exists( 'css_hook' , $this->default_settings ) ){
+			
+				$first_key = current( array_keys( $form ) );
+				
+				$settings = $this->get_settings();
+				
+				$css_form = $this->form_fields->get_field( 
+					  'text', 
+					  $this->get_input_name( 'css_hook' ), 
+					  $args = array( 
+						  'value' => $settings['css_hook'],
+						  'label' => 'CSS Hook', 
+					  ) 
+				  );
+			
+			} // end if
+			
+			$item_settings = $this->form_fields->get_field( 
+				  'hidden', 
+				  $this->get_input_name( 'tkd_item_settings' , false ), 
+				  $args = array( 
+					  'value' => '',
+					  'class' => 'tkd-item-settings' 
+				  ) 
+			  );
+			  
+			 $form[ $first_key ] = $form[ $first_key ] . $css_form . $item_settings;
+			
 			$hidden_fields = array(
 				'tkd_item_id'   => $this->get_id(),
 				'tkd_item_slug' => $this->get_slug(),
@@ -219,7 +257,15 @@ abstract class TKD_Item {
 		
 		if ( $as_modal ){
 			
-			$html = $this->forms->get_modal( $html , $args = array( 'size' => $this->get_modal_size() , 'action' => 'tkd-edited-update-item-action' ) );
+			$args = array( 'size' => $this->get_modal_size() );
+			
+			if ( $this->get_is_dynamic_editor() ) {
+				
+				$args['action'] = 'tkd-edited-update-item-action';
+				
+			} // end if
+			
+			$html = $this->forms->get_modal( $html ,  $args );
 			
 		} // end if
 		
@@ -234,13 +280,13 @@ abstract class TKD_Item {
 		
 		$inpt .= '[' . $this->get_id() . ']';
 		
-		if ( $key ){
+		if ( $is_setting ){
+				
+			$inpt .= '[settings]';
 			
-			if ( $is_setting ){
-				
-				$inpt .= '[settings]';
-				
-			} // end if
+		} // end if
+		
+		if ( $key ){
 			
 			$inpt .= '[' . $key . ']';
 			
@@ -347,7 +393,11 @@ abstract class TKD_Item {
 			
 			foreach( $settings as $key => $value ){
 				
-				$settings_array[] = $key . '=' . $delim . $value . $delim;
+				if ( $value !== '' ){
+				
+					$settings_array[] = $key . '=' . $delim . htmlspecialchars( $value ) . $delim;
+					
+				} // end if
 				
 			} // end foreach
 			
@@ -384,7 +434,14 @@ abstract class TKD_Item {
 			
 			$clean = $this->clean_settings( $settings );
 			
+			if ( array_key_exists( 'css_hook' , $this->default_settings ) ){
+			
+				$clean['css_hook'] = ( ! empty( $settings['css_hook'] ) ) ? sanitize_text_field( $settings['css_hook'] ) : '';
+			
+			} // end if
+			
 		} // end if
+		
 		
 		return $clean;
 		
@@ -420,6 +477,105 @@ abstract class TKD_Item {
 		return $s;
 		
 	} // end get_the_item_settings
+	
+	
+	public function get_item_style( $settings , $exclude = array() , $include = array() ){
+		
+		$style = array();
+		
+		$style_options = array(
+			'background-color' 	=> $settings['background_color'],
+			'color' 			=> $settings['text_color'],
+			'max-width' 		=> $settings['max_width'],
+			'text-align'		=> $settings['text_align'],
+			'font-size' 		=> $settings['font_size'],
+			'font-weight' 		=> $settings['font_weight'],
+			'letter-spacing' 	=> $settings['letter_spacing'],
+			'line-height' 		=> $settings['line_height'],
+			'font-family' 		=> $settings['font_family'],
+			'padding-top' 		=> $settings['padding_top'],
+			'padding-right' 	=> $settings['padding_right'],
+			'padding-bottom' 	=> $settings['padding_bottom'],
+			'padding-left' 		=> $settings['padding_left'],
+			'max-width' 		=> $settings['max_width'],
+			'text-transform' 	=> $settings['text_transform'],
+		);
+
+		
+		if ( $settings['background_image_src'] ) $style_options['background-image'] = 'url(' . $settings['background_image_src'] . ')';
+		
+		foreach( $style_options as $key => $value ){
+			
+			$this->add_item_style( $style , $key , $value , $exclude , $include );
+			
+		} // end foreach
+		
+		return $style;
+		
+	} // end get_item_style
+	
+	
+	public function add_item_style( &$style, $key, $value, $exclude , $include ){
+	
+		if ( ! empty( $value ) && ! in_array( $key , $exclude ) ){
+			
+			if ( empty( $include ) || in_array( $key , $include ) ) {
+				
+				$style[ $key ] = $key . ':' . $value;
+				
+			} // end if
+			
+		} // end if
+		
+	} // end if
+	
+	
+	public function get_item_classes( $settings , $classes = array() ){
+		
+		$class = array();
+		
+		$class_settings = array(
+			'background_color' => 'tkd-background-color',
+			'background_image_src' => 'tkd-background-image',
+			'background_bleed_right' => 'tkd-background-bleed-right',
+			'background_bleed_left' => 'tkd-background-bleed-left',
+			
+		);
+		
+		foreach( $class_settings as $key => $class_name ){
+			
+			if ( ! empty( $settings[ $key ] ) ){
+			
+				$class[] = $class_name;
+				
+			} // end if
+			
+		} // end foreach
+		
+		if ( in_array( array( 'tkd-background-bleed-right' , 'tkd-background-bleed-left' ) , $class ) ){
+			
+			$class[] = 'tkd-background-bleed';
+			
+		} // end if
+	
+		
+		if ( ! empty( $settings['padding'] ) && 'auto' != $settings['padding'] ){
+			
+			$class[] = 'tkd-padding-' . $settings['padding'];
+			
+		} // end if
+		
+		if ( ! empty( $settings['css_hook'] ) ){
+			
+			$class[] = $settings['css_hook'];
+			
+		} // end if
+		
+		$class = array_merge( $classes , $class );
+		
+		return $class;
+		
+	}
 	
 	
 	

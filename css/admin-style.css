@@ -24,6 +24,10 @@
 
 /* -------------------------------------------------------------------------------------- */
 
+#tkd-layout-editor {
+	padding: 2rem 0;
+}
+
 #tkd-layout-editor .tkd-row {
 	background-color: rgb(50, 55, 60);
 	border-top: 1px solid rgb(67, 74, 80);
@@ -42,12 +46,22 @@
     vertical-align: top;
 }
 
-#tkd-layout-editor .tkd-row > header > a.tkd-edit-settings-action {
+#tkd-layout-editor .tkd-row > header > a.tkd-edit-item-action {
 	background-position: center center;
-    background-size: 18px auto;
+    background-size: 1rem auto;
     font-size: 0px;
 	background-image: url(../images/settings-icon.png);
     background-repeat: no-repeat;
+}
+
+#tkd-layout-editor .tkd-row > header > .tkd-item-title {
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+	vertical-align: top;
+	color: #999;
+	font-weight: bold;
+	letter-spacing: 1px;
 }
 
 #tkd-layout-editor .tkd-row > header > a.tkd-remove-item-action {
@@ -80,6 +94,36 @@
 	box-sizing: border-box;
 }
 
+#tkd-layout-editor .tkd-column > header {
+	background-color: #eee;
+	color: #999;
+	font-weight: bold;
+	letter-spacing: 1px;
+	border-bottom: 1px solid #ccc;
+	border-radius: 6px 6px 0 0;
+	
+}
+
+#tkd-layout-editor .tkd-column > header > a {
+	height: 1.5rem;
+	width: 1.5rem;
+	display: inline-block;
+	vertical-align: top;
+	background-position: center center;
+    background-size: 1rem auto;
+    font-size: 0px;
+	background-image: url(../images/settings-icon-light.png);
+    background-repeat: no-repeat;
+	margin: 0 0.25rem;
+}
+
+#tkd-layout-editor .tkd-column > header > .tkd-item-title {
+	height: 1.5rem;
+	line-height: 1.5rem;
+	display: inline-block;
+	vertical-align: top;
+}
+
 #tkd-layout-editor .tkd-row.single .tkd-column { width: 100%;}
 
 #tkd-layout-editor .tkd-row.side-right .tkd-column.column-one { width: 70%;}
@@ -97,7 +141,7 @@
 
 #tkd-layout-editor .tkd-column > .items-set {
 	background-color: #dddddd;
-	border-radius: 6px 6px 0 0;
+	
 	padding: 1rem 1rem 1px;
 	box-sizing: border-box;
 }
@@ -438,21 +482,29 @@
 .tkd-modal .tkd-tab-form nav {
     background-color: #fcfcfc;
     border-bottom: 1px solid #ccc;
+	position: relative;
 }
 
 .tkd-modal .tkd-tab-form > nav a {
     display: inline-block;
     padding: 0.5rem 1.5rem;
     margin-left: 0.5rem;
-    background-color: #eee;
+    background-color: #f1f1f1;
     border: 1px solid #ccc;
     position: relative;
     top: 1px;
 	text-decoration: none;
+	box-sizing: border-box;
+	outline: 0;
+}
+
+.tkd-modal .tkd-tab-form > nav a:focus {
+	outline: 0;
 }
 
 .tkd-modal .tkd-tab-form nav a.active {
-    border-bottom: none;
+    border-bottom: 1px solid #eee;
+	background-color: #eee;
 }
 
 
@@ -460,5 +512,14 @@
 	padding: 16px;
 	box-sizing:border-box;
 }
+
+.tkd-modal .tkd-form-sections .tkd-form-section {
+	display: none;
+}
+
+.tkd-modal .tkd-form-sections .tkd-form-section.active {
+	display: block;
+}
+
 
 

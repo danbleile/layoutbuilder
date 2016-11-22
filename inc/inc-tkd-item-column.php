@@ -1,1 +1,1 @@
-<div class="<?php echo implode( ' ' , $class );?>"><?php echo do_shortcode( $content );?></div>
+<div class="<?php echo implode( ' ' , $class );?>" style="<?php echo implode( ';' , $style );?>"><div class="tkd-column-inner"><?php echo do_shortcode( $content );?></div></div>

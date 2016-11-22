@@ -1,5 +1,5 @@
 <div id="<?php echo $id; ?>" class="<?php echo implode( ' ' , $class );?>">
-	<header></header>
+	<header><a href="#" class="tkd-edit-item-action edit-icon-light"></a><div class="tkd-item-title">Column</div></header>
     <div class="items-set">
     	<?php echo $content;?>
     </div>

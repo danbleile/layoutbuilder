@@ -36,6 +36,7 @@ class TKD_Layout_Builder {
 	
 	protected function init(){
 		
+		require_once 'classes/class-tkd-form-fields.php';
 		require_once 'items/class-tkd-item.php';
 		
 		require_once 'classes/class-tkd-forms.php';
@@ -70,6 +71,11 @@ class TKD_Layout_Builder {
 			
 		} // end if
 		
+		
+		add_filter( 'the_content', array( $this , 'remove_empty_p' ) , 1 );
+		
+		add_action( 'wp_enqueue_scripts', array( $this , 'add_public_scripts' ), 11, 1 );
+		
 	} // end init
 	
 	/**
@@ -85,6 +91,38 @@ class TKD_Layout_Builder {
 		add_filter( 'tkd_the_content', 'prepend_attachment' );
 		
 	} // end add_tk_the_content
+	
+	
+	public function remove_empty_p( $content){
+		
+		$content = do_shortcode( $content );
+		
+		return do_shortcode( $content );
+		
+		//$post_object->post_content = do_shortcode( $post_object->post_content );
+		
+		//return $content;
+		
+	} // end remove_empty_p
+	
+	
+	public function add_public_scripts(){
+				
+			wp_enqueue_style( 
+				'tkd_public_style' , 
+				plugin_dir_url( __FILE__ ) . 'css/public.css', 
+				array() , 
+				TKD_Layout_Builder::$version 
+				);
+			wp_enqueue_script( 
+				'tkd_public_script' , 
+				plugin_dir_url( __FILE__ ) . 'js/public.js', 
+				array() , 
+				TKD_Layout_Builder::$version,
+				true 
+				);
+			
+		} // end if
 	
 } // end TKD_Layout_Builder
 

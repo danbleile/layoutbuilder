@@ -7,8 +7,8 @@ class TKD_Items_Factory {
 	//@var array Defined layouts
 	protected $layouts = array(
 		'single'     => array( 'columns' => 1, 'label' => 'Single' ),
-		'side-right' => array( 'columns' => 2, 'label' => 'Sidebar Right' ),
-		'side-left'  => array( 'columns' => 2, 'label' => 'Sidebar Left' ), 
+		/*'side-right' => array( 'columns' => 2, 'label' => 'Sidebar Right' ),
+		'side-left'  => array( 'columns' => 2, 'label' => 'Sidebar Left' ), */
 		'half'       => array( 'columns' => 2, 'label' => 'Halves' ),
 		'third'      => array( 'columns' => 3, 'label' => 'Thirds' ),
 		'quarter'    => array( 'columns' => 4, 'label' => 'Quarters' ),
@@ -54,7 +54,7 @@ class TKD_Items_Factory {
 							$item->get_default_children() 
 							);
 							
-						if ( 'row' == $item->get_slug() ){
+						if ( 'tkdrow' == $item->get_slug() ){
 							
 							$this->check_row_columns( $item , $children );
 							
@@ -97,7 +97,7 @@ class TKD_Items_Factory {
 				
 				for( $i = 0; $i < $t; $i++ ){
 					
-					$children[] = $this->get_item( 'column' );
+					$children[] = $this->get_item( 'tkdcolumn' );
 					
 				} // end for
 				
@@ -334,26 +334,31 @@ class TKD_Items_Factory {
 	public function get_the_items_array( $is_content = false , $slugs_only = false ){
 		
 		$items = array(
-			'row'    => array(
+			'tkdrow'    => array(
 				'class'       => 'TKD_Item_Row',
 				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-row.php',
 				'register'    => true,
 				'is_layout'   => true,
 			),
-			'column' => array(
+			'tkdcolumn' => array(
 				'class'       => 'TKD_Item_Column',
 				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-column.php',
 				'register'    => true,
 				'is_layout'   => true,
 			),
-			'text' => array(
+			'tkdtext' => array(
 				'class'       => 'TKD_Item_Text',
 				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-text.php',
 				'register'    => true,
 			),
-			'subtitle' => array(
+			'tkdsubtitle' => array(
 				'class'       => 'TKD_Item_Subtitle',
 				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-subtitle.php',
+				'register'    => true,
+			),
+			'tkdvideo' => array(
+				'class'       => 'TKD_Item_Video',
+				'path'        => plugin_dir_path( dirname( __FILE__ ) ) . 'items/class-tkd-item-video.php',
 				'register'    => true,
 			),
 		

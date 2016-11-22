@@ -26,15 +26,19 @@ class TKD_Post_Editor {
 	
 	public function the_editor( $post ){
 		
-		echo '<div id="tkd_editor">';
+		if ( 'page' == $post->post_type ){
 		
-		$items = $this->item_factory->get_items_from_content( $post->post_content , array( 'row' ) , 'row' );
+			echo '<div id="tkd_editor">';
+			
+			$items = $this->item_factory->get_items_from_content( $post->post_content , array( 'tkdrow' ) , 'tkdrow' );
+			
+			echo $this->the_layout_editor( $post , $items );
+			
+			echo $this->the_settings_editor( $post , $items );
+			
+			echo '</div>';
 		
-		echo $this->the_layout_editor( $post , $items );
-		
-		echo $this->the_settings_editor( $post , $items );
-		
-		echo '</div>';
+		} // end if
 		
 	} // end the_editor
 	
@@ -59,7 +63,7 @@ class TKD_Post_Editor {
 		
 		foreach( $layouts as $class => $info ){
 			
-			$layouts_html .= $this->get_add_layout_item( 'row' , $info['label'] , $class , $info['columns'] , array( 'layout' => $class ) );
+			$layouts_html .= $this->get_add_layout_item( 'tkdrow' , $info['label'] , $class , $info['columns'] , array( 'layout' => $class ) );
 			
 		} // end foreach
 		
@@ -183,7 +187,7 @@ class TKD_Post_Editor {
 		
 		for( $i = 0; $i < 10 ; $i++ ){
 			
-			$item = $this->item_factory->get_item( 'text' );
+			$item = $this->item_factory->get_item( 'tkdtext' );
 			
 			$item_form = $item->get_form_html( false );
 			
@@ -236,12 +240,6 @@ class TKD_Post_Editor {
 	 public function add_admin_scripts( $hook ){
 		 
 		 if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
-					 
-			/*wp_enqueue_script(  
-				'wovax_mm_selector_js', 
-				plugin_dir_url(  __FILE__  ) .'js/admin-script.js' , 
-				array('jquery-ui-draggable','jquery-ui-droppable','jquery-ui-sortable') , 
-				WOVAX_Music_Manager::$version , true );*/
 				
 			wp_enqueue_style( 
 				'tkd_editor_admin_style' , 

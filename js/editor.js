@@ -197,6 +197,8 @@ var TKD_Editor = {
 		
 		insert_row: function( response ){
 			
+			console.log( response );
+			
 			TKD_Editor.layout.wrap.find('.tkd-layout-items').append( response.editor );	
 			
 			var itm = jQuery('#' + response.id );
@@ -321,8 +323,6 @@ var TKD_Editor = {
 				data,
 				function( response ){
 					
-					console.log( response );
-					
 					TKD_Editor[callback_obj][ callback ]( response );
 					
 				},
@@ -347,6 +347,8 @@ var TKD_Editor = {
 			
 			TKD_Editor.forms.bind_events();
 			
+			TKD_Editor.forms.condense_fields();
+			
 		}, // end init
 		
 		bind_events: function(){
@@ -367,7 +369,25 @@ var TKD_Editor = {
 					
 			});
 			
+			
+			TKD_Editor.forms.wrap.on('click' , '.tkd-tab-form > nav a' , function( e ){
+					
+					e.preventDefault();
+					
+					TKD_Editor.forms.tab( jQuery( this ) );
+					
+			});
+			
 		}, // end bind_events
+		
+		tab: function( ic ){
+			
+			ic.addClass('active').siblings().removeClass('active');
+			
+			ic.closest('nav').siblings('.tkd-form-sections').children().eq( ic.index() ).addClass('active').siblings().removeClass('active');
+			
+			
+		}, // end tab
 		
 		insert_forms: function( forms ){
 			
@@ -378,7 +398,7 @@ var TKD_Editor = {
 				
 				var form = forms[ key ];
 				
-				if ( 'text' == form.type ){ // uses wpeditor
+				if ( 'tkdtext' == form.type ){ // uses wpeditor
 				
 					var ne = TKD_Editor.forms.wrap.find('.tkd-modal.empty-editor').first();
 					
@@ -405,6 +425,8 @@ var TKD_Editor = {
 		show_item_form: function( item_id ){
 			
 			var form = TKD_Editor.forms.get_form_by_item_id( item_id );
+			
+			TKD_Editor.forms.enable_fields( form );
 			
 			TKD_Editor.modal.show( form.closest('.tkd-modal') );
 			
@@ -494,6 +516,45 @@ var TKD_Editor = {
 			
 		}, // end add item
 		
+		serialize_settings: function( form ){
+			
+			var data = form.serialize();
+			
+		}, // end serialize_settings
+		
+		condense_fields: function(){
+			
+			jQuery('.tkd-form').each(
+				function(){
+					
+					var form = jQuery( this );
+					
+					TKD_Editor.forms.enable_fields( form )
+					
+					var data = form.find('input,select,textarea:not(".wp-editor-area"), hidden').not('.tkd-item-settings').serialize();
+					
+					form.find('.tkd-item-settings').val( data );
+					
+					form.find('input, select').each(
+						function(){
+							jQuery( this ).not('.tkd-item-settings').prop('disabled', true);
+						}
+					);
+				} 
+			);
+			
+		}, // end condense_fields
+		
+		enable_fields: function( form){
+			
+			  form.find('input, select, textarea').each(
+				  function(){
+					  jQuery( this ).not('.tkd-item-settings').prop('disabled', false);
+				  }
+			  );
+			  
+		}, // end condense_fields
+		
 		
 	}, // end forms
 	
@@ -546,6 +607,8 @@ var TKD_Editor = {
 			jQuery('.tkd-modal').css('top' , '-9999px');
 			
 			TKD_Editor.modal.bg.fadeOut( 'fast' );
+			
+			TKD_Editor.forms.condense_fields();
 			
 		}, // end hid
 		
